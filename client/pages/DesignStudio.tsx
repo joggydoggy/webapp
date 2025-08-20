@@ -537,7 +537,7 @@ export default function DesignStudio() {
               <CardContent>
                 {/* Live Dog Preview */}
                 <div className="mb-6">
-                  <DogPreview dog={selectedDog} design={design} />
+                  <DogPreview dog={dogData} design={design} />
                 </div>
                 
                 {/* Design Summary */}
