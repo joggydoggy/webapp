@@ -322,11 +322,11 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
 
           {(() => {
             const outline = getDogOutline();
-            const clothingOutline = getClothingOutline();
+            const clothingOutline = getClothingOutline(outline);
 
             return (
               <g>
-                {/* Dog outline - head */}
+                {/* Dog outline - head (more realistic shape) */}
                 <polygon
                   points={outline.headPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
                   fill="none"
@@ -335,17 +335,16 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
                   strokeLinejoin="round"
                 />
 
-                {/* Dog outline - neck */}
-                <line
-                  x1={outline.neckPoints[0][0]}
-                  y1={outline.neckPoints[0][1]}
-                  x2={outline.neckPoints[1][0]}
-                  y2={outline.neckPoints[1][1]}
+                {/* Dog outline - neck (proper trapezoid shape) */}
+                <polygon
+                  points={outline.neckPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
+                  fill="none"
                   stroke="#6B7280"
                   strokeWidth="2"
+                  strokeLinejoin="round"
                 />
 
-                {/* Dog outline - body */}
+                {/* Dog outline - body (following chest measurements) */}
                 <polygon
                   points={outline.bodyPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
                   fill="none"
@@ -387,7 +386,19 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
                   strokeLinecap="round"
                 />
 
-                {/* Clothing overlay */}
+                {/* Collar visualization (based on collar circumference) */}
+                <rect
+                  x={outline.neckPoints[0][0] - 2}
+                  y={outline.neckPoints[0][1] + outline.neckThickness * 0.3}
+                  width={neckLength + 4}
+                  height={outline.neckThickness * 0.3}
+                  fill="none"
+                  stroke={design.secondaryColor}
+                  strokeWidth="2"
+                  rx="3"
+                />
+
+                {/* Clothing overlay (fitted to dog shape) */}
                 <polygon
                   points={clothingOutline.map(p => `${p[0]},${p[1]}`).join(' ')}
                   fill={design.primaryColor}
@@ -397,22 +408,22 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
                   strokeLinejoin="round"
                 />
 
-                {/* Style-specific details */}
+                {/* Style-specific details positioned on clothing */}
                 {design.style === 'sporty' && (
                   <g>
                     <line
                       x1={clothingOutline[0][0] + 15}
-                      y1={clothingOutline[0][1] + 8}
-                      x2={clothingOutline[1][0] - 15}
-                      y2={clothingOutline[1][1] + 8}
+                      y1={clothingOutline[0][1] + 12}
+                      x2={clothingOutline[1][0] - 20}
+                      y2={clothingOutline[1][1] + 12}
                       stroke={design.secondaryColor}
                       strokeWidth="3"
                     />
                     <line
                       x1={clothingOutline[0][0] + 10}
-                      y1={clothingOutline[0][1] + 18}
-                      x2={clothingOutline[1][0] - 20}
-                      y2={clothingOutline[1][1] + 18}
+                      y1={clothingOutline[0][1] + 25}
+                      x2={clothingOutline[1][0] - 25}
+                      y2={clothingOutline[1][1] + 25}
                       stroke={design.secondaryColor}
                       strokeWidth="2"
                     />
@@ -422,14 +433,20 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
                 {design.style === 'classic' && (
                   <g>
                     <circle
-                      cx={clothingOutline[0][0] + 20}
-                      cy={clothingOutline[0][1] + 15}
+                      cx={clothingOutline[0][0] + 25}
+                      cy={clothingOutline[0][1] + 18}
                       r="3"
                       fill={design.secondaryColor}
                     />
                     <circle
-                      cx={clothingOutline[0][0] + 40}
-                      cy={clothingOutline[0][1] + 15}
+                      cx={clothingOutline[0][0] + 50}
+                      cy={clothingOutline[0][1] + 20}
+                      r="3"
+                      fill={design.secondaryColor}
+                    />
+                    <circle
+                      cx={clothingOutline[0][0] + 75}
+                      cy={clothingOutline[0][1] + 22}
                       r="3"
                       fill={design.secondaryColor}
                     />
@@ -438,11 +455,34 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
 
                 {design.style === 'modern' && (
                   <polygon
-                    points={`${clothingOutline[0][0] + 25},${clothingOutline[0][1] + 10} ${clothingOutline[0][0] + 40},${clothingOutline[0][1] + 5} ${clothingOutline[0][0] + 55},${clothingOutline[0][1] + 10} ${clothingOutline[0][0] + 40},${clothingOutline[0][1] + 15}`}
+                    points={`${clothingOutline[0][0] + 30},${clothingOutline[0][1] + 15} ${clothingOutline[0][0] + 50},${clothingOutline[0][1] + 8} ${clothingOutline[0][0] + 70},${clothingOutline[0][1] + 15} ${clothingOutline[0][0] + 50},${clothingOutline[0][1] + 22}`}
                     fill={design.secondaryColor}
                     fillOpacity="0.8"
                   />
                 )}
+
+                {/* Measurement indicators */}
+                <g opacity="0.4">
+                  {/* Length indicator */}
+                  <line
+                    x1={outline.bodyStartX}
+                    y1={outline.backY - 15}
+                    x2={outline.bodyStartX + bodyLength}
+                    y2={outline.backY - 15}
+                    stroke="#6B7280"
+                    strokeWidth="1"
+                    strokeDasharray="2,2"
+                  />
+                  <text
+                    x={outline.bodyStartX + bodyLength / 2}
+                    y={outline.backY - 20}
+                    textAnchor="middle"
+                    fontSize="10"
+                    fill="#6B7280"
+                  >
+                    {dog.measurements.length}cm
+                  </text>
+                </g>
               </g>
             );
           })()}
