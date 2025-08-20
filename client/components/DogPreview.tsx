@@ -183,26 +183,51 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
     }
   };
 
-  const getDogBodyPath = () => {
-    // Side view body coordinates
-    const bodyStartX = 120 + neckLength;
-    const bodyEndX = bodyStartX + bodyLength;
-    const backY = 180; // Top of back
-    const bellyY = backY + bodyHeight;
-    const chestX = bodyStartX + bodyLength * 0.15; // Chest position
-    const backCurveControl = backY + (bodyHeight * characteristics.backCurve * 20);
-    const bellyTuckY = bellyY - (bodyHeight * characteristics.bellyTuck);
+  const getDogOutline = () => {
+    // Define key points for low-poly dog outline
+    const startX = 120;
+    const backY = 180;
 
-    // Create realistic side profile based on breed characteristics
-    return `
-      M ${bodyStartX} ${backY + 10}
-      Q ${chestX} ${backCurveControl} ${bodyEndX - 20} ${backY + 5}
-      Q ${bodyEndX - 5} ${backY + 15} ${bodyEndX - 10} ${backY + bodyHeight * 0.7}
-      L ${bodyEndX - 15} ${bellyTuckY}
-      Q ${bodyStartX + bodyLength * 0.7} ${bellyY - 5} ${chestX} ${bellyY - 10}
-      Q ${bodyStartX + 10} ${bellyY - 5} ${bodyStartX - 5} ${backY + 35}
-      Z
-    `;
+    // Head points (simple rectangle)
+    const headPoints = [
+      [startX, backY + 10], // head back top
+      [startX - headLength, backY + 10], // head front top
+      [startX - headLength, backY + 10 + headHeight], // head front bottom
+      [startX, backY + 10 + headHeight] // head back bottom
+    ];
+
+    // Neck points (connecting head to body)
+    const neckPoints = [
+      [startX, backY + 10 + headHeight], // neck start (from head)
+      [startX + neckLength, backY] // neck end (to body)
+    ];
+
+    // Body points (main rectangle with slight taper)
+    const bodyPoints = [
+      [startX + neckLength, backY], // body front top
+      [startX + neckLength + bodyLength, backY], // body back top
+      [startX + neckLength + bodyLength, backY + bodyHeight * 0.8], // body back bottom
+      [startX + neckLength + bodyLength * 0.2, backY + bodyHeight] // body front bottom (chest)
+    ];
+
+    // Leg points (simple lines)
+    const frontLeg = [
+      [startX + neckLength + bodyLength * 0.25, backY + bodyHeight * 0.8],
+      [startX + neckLength + bodyLength * 0.25, backY + bodyHeight * 0.8 + legLength]
+    ];
+
+    const backLeg = [
+      [startX + neckLength + bodyLength * 0.75, backY + bodyHeight * 0.8],
+      [startX + neckLength + bodyLength * 0.75, backY + bodyHeight * 0.8 + legLength]
+    ];
+
+    // Tail points (simple line)
+    const tailPoints = [
+      [startX + neckLength + bodyLength, backY + bodyHeight * 0.4],
+      [startX + neckLength + bodyLength + 30, backY - 20]
+    ];
+
+    return { headPoints, neckPoints, bodyPoints, frontLeg, backLeg, tailPoints, startX, backY };
   };
 
   return (
