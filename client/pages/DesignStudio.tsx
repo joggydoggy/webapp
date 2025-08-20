@@ -8,12 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { 
-  Palette, 
-  Shirt, 
-  Save, 
-  Download, 
-  RotateCcw, 
+import DogPreview from "@/components/DogPreview";
+import {
+  Palette,
+  Shirt,
+  Save,
+  Download,
+  RotateCcw,
   Heart,
   Sparkles,
   Star,
