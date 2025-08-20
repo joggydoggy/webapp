@@ -217,7 +217,7 @@ export default function DesignStudio() {
                 <CardDescription>Choose which dog you're designing for</CardDescription>
               </CardHeader>
               <CardContent>
-                <Select value={selectedDog.id} onValueChange={(id) => setSelectedDog(dogs.find(d => d.id === id)!)}>
+                <Select value={selectedDog.id} onValueChange={handleDogChange}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
