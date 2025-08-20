@@ -119,20 +119,21 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
   const [zoom, setZoom] = useState(1);
 
   // Calculate geometric dimensions based purely on user measurements
-  const baseScale = 2.5; // Base scaling factor for display
+  const baseScale = 2.2; // Base scaling factor for display
 
   // Core body dimensions from measurements
   const bodyLength = dog.measurements.length * baseScale;
-  const bodyHeight = dog.measurements.height * baseScale * 0.8; // Adjusted for side view
+  const bodyHeight = dog.measurements.height * baseScale * 0.75; // Adjusted for side view
+  const bodyWidth = dog.measurements.chest * baseScale * 0.3; // Width based on chest circumference
   const neckLength = dog.measurements.neckLength * baseScale;
-  const headLength = neckLength * 0.6; // Simple head proportional to neck
-  const headHeight = bodyHeight * 0.3; // Simple head height
-  const legLength = bodyHeight * 0.7; // Legs proportional to height
-  const chestDepth = dog.measurements.chest * baseScale * 0.2; // Depth for 3D effect
+  const neckThickness = dog.measurements.collar * baseScale * 0.15; // Neck thickness from collar circumference
+  const headLength = neckLength * 0.8; // Head proportional to neck
+  const headHeight = neckThickness * 1.8; // Head height based on neck thickness
+  const legLength = bodyHeight * 0.8; // Legs proportional to height
 
   // Calculate clothing dimensions based on custom fit
-  const clothingLength = design.customFit.length * baseScale * 0.85;
-  const clothingHeight = design.customFit.chest * baseScale * 0.15;
+  const clothingLength = design.customFit.length * baseScale * 0.82;
+  const clothingHeight = design.customFit.chest * baseScale * 0.18;
 
   // Simple geometric clothing overlay
   const getClothingOutline = () => {
