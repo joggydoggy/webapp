@@ -23,8 +23,7 @@ import {
   PaintBucket
 } from "lucide-react";
 
-interface Dog {
-  id: string;
+interface DogData {
   name: string;
   breed: string;
   measurements: {
@@ -32,6 +31,8 @@ interface Dog {
     chest: number;
     length: number;
     weight: number;
+    height: number;
+    neckLength: number;
   };
 }
 
