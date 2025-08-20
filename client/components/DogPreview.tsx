@@ -283,196 +283,143 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
             transition: 'transform 0.3s ease'
           }}
         >
-          {/* Ground shadow */}
-          <ellipse
-            cx="200"
-            cy="380"
-            rx={bodyLength * 0.6}
-            ry="12"
-            fill="rgba(0,0,0,0.1)"
-          />
-
-          {/* Dog legs (side view - front and back legs visible) */}
-          <g>
-            {/* Front leg (visible) */}
-            <rect
-              x={125 + neckLength + bodyLength * 0.2}
-              y={180 + bodyHeight * 0.8}
-              width="10"
-              height={legLength}
-              rx="5"
-              fill="#8B5A3C"
-            />
-
-            {/* Back leg (visible) */}
-            <rect
-              x={125 + neckLength + bodyLength * 0.65}
-              y={180 + bodyHeight * 0.8}
-              width="10"
-              height={legLength}
-              rx="5"
-              fill="#8B5A3C"
-            />
-
-            {/* Paws */}
-            <ellipse
-              cx={130 + neckLength + bodyLength * 0.2}
-              cy={180 + bodyHeight * 0.8 + legLength + 5}
-              rx="8"
-              ry="4"
-              fill="#6B4226"
-            />
-            <ellipse
-              cx={130 + neckLength + bodyLength * 0.65}
-              cy={180 + bodyHeight * 0.8 + legLength + 5}
-              rx="8"
-              ry="4"
-              fill="#6B4226"
-            />
-          </g>
-
-          {/* Dog body */}
-          <path
-            d={getDogBodyPath()}
-            fill="#D4A574"
-            stroke="#B8956A"
-            strokeWidth="2"
-          />
-
-          {/* Dog head (side profile) */}
-          <ellipse
-            cx={105}
-            cy={200}
-            rx={headLength}
-            ry={headHeight}
-            fill="#D4A574"
-            stroke="#B8956A"
-            strokeWidth="2"
-          />
-
-          {/* Dog snout */}
-          <ellipse
-            cx={105 - headLength * 0.6}
-            cy={200 + headHeight * 0.1}
-            rx={headLength * 0.4}
-            ry={headHeight * 0.3}
-            fill="#C49968"
-            stroke="#B8956A"
+          {/* Ground line */}
+          <line
+            x1="50"
+            y1="380"
+            x2="350"
+            y2="380"
+            stroke="rgba(0,0,0,0.2)"
             strokeWidth="1"
+            strokeDasharray="5,5"
           />
 
-          {/* Dog neck */}
-          <path
-            d={`M ${105 + headLength * 0.6} ${200 - headHeight * 0.4}
-                L ${120 + neckLength * 0.3} ${185}
-                L ${120 + neckLength} ${180}
-                L ${105 + headLength * 0.4} ${200 + headHeight * 0.6}
-                Z`}
-            fill="#D4A574"
-            stroke="#B8956A"
-            strokeWidth="1"
-          />
+          {(() => {
+            const outline = getDogOutline();
+            const clothingOutline = getClothingOutline();
 
-          {/* Collar */}
-          <ellipse
-            cx={108}
-            cy={205}
-            rx={design.customFit.collar * 0.15}
-            ry="6"
-            fill={design.secondaryColor}
-            stroke={design.primaryColor}
-            strokeWidth="1"
-          />
+            return (
+              <g>
+                {/* Dog outline - head */}
+                <polygon
+                  points={outline.headPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
+                  fill="none"
+                  stroke="#6B7280"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
 
-          {/* Dog ear (side view - one ear visible) */}
-          <ellipse
-            cx={105 + headLength * 0.2}
-            cy={200 - headHeight * 0.6}
-            rx={headLength * 0.3}
-            ry={headHeight * 0.4}
-            fill="#C49968"
-            stroke="#B8956A"
-            strokeWidth="1"
-          />
+                {/* Dog outline - neck */}
+                <line
+                  x1={outline.neckPoints[0][0]}
+                  y1={outline.neckPoints[0][1]}
+                  x2={outline.neckPoints[1][0]}
+                  y2={outline.neckPoints[1][1]}
+                  stroke="#6B7280"
+                  strokeWidth="2"
+                />
 
-          {/* Dog eye (side view - one eye visible) */}
-          <circle cx={105 - headLength * 0.2} cy={200 - headHeight * 0.1} r="4" fill="#2D3748" />
-          <circle cx={105 - headLength * 0.2} cy={200 - headHeight * 0.15} r="1.5" fill="white" />
+                {/* Dog outline - body */}
+                <polygon
+                  points={outline.bodyPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
+                  fill="none"
+                  stroke="#6B7280"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
 
-          {/* Dog nose */}
-          <ellipse cx={105 - headLength * 0.85} cy={200 + headHeight * 0.1} rx="3" ry="2" fill="#2D3748" />
+                {/* Dog outline - front leg */}
+                <line
+                  x1={outline.frontLeg[0][0]}
+                  y1={outline.frontLeg[0][1]}
+                  x2={outline.frontLeg[1][0]}
+                  y2={outline.frontLeg[1][1]}
+                  stroke="#6B7280"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
 
-          {/* Clothing fitted to body */}
-          <path
-            d={getClothingPath()}
-            fill={design.primaryColor}
-            stroke={design.secondaryColor}
-            strokeWidth="2"
-            opacity="0.9"
-          />
+                {/* Dog outline - back leg */}
+                <line
+                  x1={outline.backLeg[0][0]}
+                  y1={outline.backLeg[0][1]}
+                  x2={outline.backLeg[1][0]}
+                  y2={outline.backLeg[1][1]}
+                  stroke="#6B7280"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
 
-          {/* Clothing details based on style */}
-          {design.style === 'sporty' && (
-            <g>
-              {/* Sport stripes following body curve */}
-              <path
-                d={`M ${130 + neckLength} 190 Q ${160 + neckLength} 188 ${190 + neckLength} 192`}
-                stroke={design.secondaryColor}
-                strokeWidth="3"
-                fill="none"
-              />
-              <path
-                d={`M ${135 + neckLength} 200 Q ${165 + neckLength} 198 ${185 + neckLength} 202`}
-                stroke={design.secondaryColor}
-                strokeWidth="2"
-                fill="none"
-              />
-            </g>
-          )}
+                {/* Dog outline - tail */}
+                <line
+                  x1={outline.tailPoints[0][0]}
+                  y1={outline.tailPoints[0][1]}
+                  x2={outline.tailPoints[1][0]}
+                  y2={outline.tailPoints[1][1]}
+                  stroke="#6B7280"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
 
-          {design.style === 'classic' && (
-            <g>
-              {/* Classic buttons along the side */}
-              <circle
-                cx={140 + neckLength}
-                cy={195}
-                r="3"
-                fill={design.secondaryColor}
-                stroke="white"
-                strokeWidth="1"
-              />
-              <circle
-                cx={160 + neckLength}
-                cy={198}
-                r="3"
-                fill={design.secondaryColor}
-                stroke="white"
-                strokeWidth="1"
-              />
-            </g>
-          )}
+                {/* Clothing overlay */}
+                <polygon
+                  points={clothingOutline.map(p => `${p[0]},${p[1]}`).join(' ')}
+                  fill={design.primaryColor}
+                  fillOpacity="0.7"
+                  stroke={design.secondaryColor}
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
 
-          {design.style === 'modern' && (
-            <g>
-              {/* Modern geometric accent */}
-              <polygon
-                points={`${145 + neckLength},190 ${160 + neckLength},185 ${175 + neckLength},190 ${160 + neckLength},195`}
-                fill={design.secondaryColor}
-                opacity="0.8"
-              />
-            </g>
-          )}
+                {/* Style-specific details */}
+                {design.style === 'sporty' && (
+                  <g>
+                    <line
+                      x1={clothingOutline[0][0] + 15}
+                      y1={clothingOutline[0][1] + 8}
+                      x2={clothingOutline[1][0] - 15}
+                      y2={clothingOutline[1][1] + 8}
+                      stroke={design.secondaryColor}
+                      strokeWidth="3"
+                    />
+                    <line
+                      x1={clothingOutline[0][0] + 10}
+                      y1={clothingOutline[0][1] + 18}
+                      x2={clothingOutline[1][0] - 20}
+                      y2={clothingOutline[1][1] + 18}
+                      stroke={design.secondaryColor}
+                      strokeWidth="2"
+                    />
+                  </g>
+                )}
 
-          {/* Dog tail (side view) */}
-          <path
-            d={`M ${120 + neckLength + bodyLength - 15} ${190 + bodyHeight * 0.4}
-                Q ${140 + neckLength + bodyLength} ${170 + bodyHeight * 0.2}
-                  ${145 + neckLength + bodyLength} ${160 + bodyHeight * 0.1}`}
-            stroke="#D4A574"
-            strokeWidth="8"
-            fill="none"
-            strokeLinecap="round"
-          />
+                {design.style === 'classic' && (
+                  <g>
+                    <circle
+                      cx={clothingOutline[0][0] + 20}
+                      cy={clothingOutline[0][1] + 15}
+                      r="3"
+                      fill={design.secondaryColor}
+                    />
+                    <circle
+                      cx={clothingOutline[0][0] + 40}
+                      cy={clothingOutline[0][1] + 15}
+                      r="3"
+                      fill={design.secondaryColor}
+                    />
+                  </g>
+                )}
+
+                {design.style === 'modern' && (
+                  <polygon
+                    points={`${clothingOutline[0][0] + 25},${clothingOutline[0][1] + 10} ${clothingOutline[0][0] + 40},${clothingOutline[0][1] + 5} ${clothingOutline[0][0] + 55},${clothingOutline[0][1] + 10} ${clothingOutline[0][0] + 40},${clothingOutline[0][1] + 15}`}
+                    fill={design.secondaryColor}
+                    fillOpacity="0.8"
+                  />
+                )}
+              </g>
+            );
+          })()}
         </svg>
 
         {/* Measurement overlay */}
