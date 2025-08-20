@@ -30,11 +30,11 @@ interface DesignConfig {
 }
 
 interface DogPreviewProps {
-  dog: Dog;
+  dog: DogData;
   design: DesignConfig;
 }
 
-// Breed-specific characteristics for side view
+// Breed-specific characteristics for side view (used as base multipliers)
 const breedCharacteristics: Record<string, {
   bodyLength: number; // body length multiplier
   bodyHeight: number; // body height multiplier
