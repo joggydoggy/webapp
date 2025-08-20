@@ -37,7 +37,7 @@ export default function Navigation() {
             <span className="text-white font-bold text-sm">D</span>
           </div>
           <span className="font-bold text-xl bg-gradient-to-r from-dogzilla-purple to-dogzilla-orange bg-clip-text text-transparent">
-            DOGZILLA
+            JOGGYDOGGY
           </span>
         </Link>
 
@@ -86,7 +86,7 @@ export default function Navigation() {
                   <span className="text-white font-bold text-sm">D</span>
                 </div>
                 <span className="font-bold text-xl bg-gradient-to-r from-dogzilla-purple to-dogzilla-orange bg-clip-text text-transparent">
-                  DOGZILLA
+                  JOGGYDOGGY
                 </span>
               </Link>
               
