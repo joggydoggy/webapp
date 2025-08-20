@@ -422,28 +422,9 @@ export default function DesignStudio() {
                 <CardDescription>See your design come to life</CardDescription>
               </CardHeader>
               <CardContent>
-                {/* 3D Preview Placeholder */}
-                <div className="aspect-square bg-gradient-to-br from-muted/50 to-muted rounded-lg flex items-center justify-center mb-6 relative overflow-hidden">
-                  <div 
-                    className="w-32 h-40 rounded-lg shadow-lg transform rotate-12 transition-all duration-300"
-                    style={{ 
-                      backgroundColor: design.primaryColor,
-                      borderLeft: `8px solid ${design.secondaryColor}`
-                    }}
-                  >
-                    <div className="w-full h-8 rounded-t-lg" style={{ backgroundColor: design.secondaryColor }} />
-                    <div className="p-2">
-                      <div className="w-full h-2 bg-white/20 rounded mb-2" />
-                      <div className="w-3/4 h-2 bg-white/20 rounded mb-2" />
-                      <div className="w-1/2 h-2 bg-white/20 rounded" />
-                    </div>
-                  </div>
-                  
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-dogzilla-purple text-white">
-                      {design.style.charAt(0).toUpperCase() + design.style.slice(1)}
-                    </Badge>
-                  </div>
+                {/* Live Dog Preview */}
+                <div className="mb-6">
+                  <DogPreview dog={selectedDog} design={design} />
                 </div>
                 
                 {/* Design Summary */}
