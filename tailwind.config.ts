@@ -47,6 +47,13 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        dogzilla: {
+          purple: "hsl(262 83% 58%)",
+          yellow: "hsl(47 100% 68%)",
+          orange: "hsl(16 100% 66%)",
+          navy: "hsl(220 13% 18%)",
+          gray: "hsl(220 9% 46%)",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
