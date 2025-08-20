@@ -135,42 +135,49 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
   const clothingLength = design.customFit.length * baseScale * 0.82;
   const clothingHeight = design.customFit.chest * baseScale * 0.18;
 
-  // Simple geometric clothing overlay
-  const getClothingOutline = () => {
-    const startX = 120;
-    const backY = 180;
-    const clothingStartX = startX + neckLength + 5; // Start slightly after neck
+  // Clothing overlay that fits over dog shape nodes
+  const getClothingOutline = (dogOutline: any) => {
+    const { bodyStartX, backY, bodyPoints, neckPoints } = dogOutline;
+
+    // Clothing should wrap around the dog's body shape
+    const clothingStartX = bodyStartX + 8; // Start after neck connection
     const clothingEndX = clothingStartX + clothingLength;
-    const clothingBackY = backY + 5; // Slightly below back line
+    const clothingBackY = backY + 3; // Slightly above back line
     const clothingBellyY = clothingBackY + clothingHeight;
 
-    // Simple rectangular clothing with style variations
+    // Follow the dog's body contour for proper fit
+    const neckConnectionY = neckPoints[2][1]; // Lower neck connection point
+
+    // Base clothing points that follow dog shape
     const baseClothing = [
-      [clothingStartX, clothingBackY], // front top
-      [clothingEndX, clothingBackY], // back top
+      [clothingStartX, clothingBackY], // front top (on back)
+      [clothingEndX, clothingBackY], // back top (on back)
       [clothingEndX, clothingBellyY], // back bottom
-      [clothingStartX, clothingBellyY] // front bottom
+      [bodyStartX + bodyLength * 0.15, clothingBellyY + 5], // front bottom (following chest curve)
+      [clothingStartX - 5, neckConnectionY + 8] // connect near neck
     ];
 
     // Style-specific modifications
     if (design.style === 'sporty') {
-      // Add angled cut for sporty look
+      // Athletic cut with angled lines
       return [
-        [clothingStartX + 10, clothingBackY],
-        [clothingEndX - 5, clothingBackY],
-        [clothingEndX - 10, clothingBellyY],
-        [clothingStartX + 5, clothingBellyY]
+        [clothingStartX + 12, clothingBackY - 2],
+        [clothingEndX - 8, clothingBackY],
+        [clothingEndX - 12, clothingBellyY],
+        [bodyStartX + bodyLength * 0.15, clothingBellyY + 3],
+        [clothingStartX - 3, neckConnectionY + 10]
       ];
     } else if (design.style === 'classic') {
-      // Traditional rectangular cut
+      // Traditional cut following body lines
       return baseClothing;
     } else { // modern
-      // Slightly tapered modern cut
+      // Contemporary cut with geometric precision
       return [
-        [clothingStartX + 5, clothingBackY],
-        [clothingEndX, clothingBackY],
-        [clothingEndX - 8, clothingBellyY],
-        [clothingStartX, clothingBellyY]
+        [clothingStartX + 8, clothingBackY],
+        [clothingEndX - 2, clothingBackY],
+        [clothingEndX - 10, clothingBellyY],
+        [bodyStartX + bodyLength * 0.18, clothingBellyY + 2],
+        [clothingStartX - 2, neckConnectionY + 6]
       ];
     }
   };
