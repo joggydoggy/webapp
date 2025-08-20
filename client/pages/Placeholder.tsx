@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ArrowLeft, Construction } from "lucide-react";
 
 interface PlaceholderProps {
@@ -9,7 +15,11 @@ interface PlaceholderProps {
   suggestedActions?: string[];
 }
 
-export default function Placeholder({ title, description, suggestedActions }: PlaceholderProps) {
+export default function Placeholder({
+  title,
+  description,
+  suggestedActions,
+}: PlaceholderProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-dogzilla-purple/5 to-dogzilla-yellow/10 flex items-center justify-center">
       <div className="container mx-auto px-4">
@@ -23,22 +33,26 @@ export default function Placeholder({ title, description, suggestedActions }: Pl
           </CardHeader>
           <CardContent className="text-center space-y-6">
             <p className="text-muted-foreground">
-              This page is coming soon! We're working hard to bring you amazing features for your furry friends.
+              This page is coming soon! We're working hard to bring you amazing
+              features for your furry friends.
             </p>
-            
+
             {suggestedActions && suggestedActions.length > 0 && (
               <div className="space-y-3">
                 <p className="font-medium">In the meantime, you can:</p>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   {suggestedActions.map((action, index) => (
-                    <li key={index} className="flex items-center justify-center">
+                    <li
+                      key={index}
+                      className="flex items-center justify-center"
+                    >
                       <span>• {action}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button variant="outline" asChild>
                 <Link to="/" className="flex items-center">
@@ -46,7 +60,10 @@ export default function Placeholder({ title, description, suggestedActions }: Pl
                   Back to Home
                 </Link>
               </Button>
-              <Button className="bg-dogzilla-purple hover:bg-dogzilla-purple/90" asChild>
+              <Button
+                className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
+                asChild
+              >
                 <Link to="/customize">Start Designing</Link>
               </Button>
             </div>

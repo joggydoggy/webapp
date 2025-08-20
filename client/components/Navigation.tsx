@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
-  NavigationMenu, 
-  NavigationMenuContent, 
-  NavigationMenuItem, 
-  NavigationMenuLink, 
-  NavigationMenuList, 
-  NavigationMenuTrigger 
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Heart, User, ShoppingBag, Palette } from "lucide-react";
@@ -49,9 +49,9 @@ export default function Navigation() {
               to={item.href}
               className={cn(
                 "text-sm font-medium transition-colors hover:text-dogzilla-purple",
-                isActive(item.href) 
-                  ? "text-dogzilla-purple" 
-                  : "text-muted-foreground"
+                isActive(item.href)
+                  ? "text-dogzilla-purple"
+                  : "text-muted-foreground",
               )}
             >
               {item.name}
@@ -67,7 +67,10 @@ export default function Navigation() {
               Sign In
             </Link>
           </Button>
-          <Button size="sm" className="bg-dogzilla-purple hover:bg-dogzilla-purple/90">
+          <Button
+            size="sm"
+            className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
+          >
             <Link to="/register">Get Started</Link>
           </Button>
         </div>
@@ -81,7 +84,10 @@ export default function Navigation() {
           </SheetTrigger>
           <SheetContent side="right" className="w-80">
             <div className="flex flex-col space-y-4 mt-8">
-              <Link to="/" className="flex items-center space-x-2 pb-4 border-b">
+              <Link
+                to="/"
+                className="flex items-center space-x-2 pb-4 border-b"
+              >
                 <div className="w-8 h-8 bg-gradient-to-br from-dogzilla-purple to-dogzilla-orange rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-sm">D</span>
                 </div>
@@ -89,7 +95,7 @@ export default function Navigation() {
                   JOGGYDOGGY
                 </span>
               </Link>
-              
+
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -99,22 +105,29 @@ export default function Navigation() {
                     "flex items-center space-x-3 text-lg font-medium py-2 px-3 rounded-lg transition-colors",
                     isActive(item.href)
                       ? "bg-dogzilla-purple/10 text-dogzilla-purple"
-                      : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                      : "hover:bg-muted text-muted-foreground hover:text-foreground",
                   )}
                 >
                   {item.icon && <item.icon className="h-5 w-5" />}
                   <span>{item.name}</span>
                 </Link>
               ))}
-              
+
               <div className="pt-4 border-t space-y-2">
-                <Button variant="ghost" className="w-full justify-start" size="lg">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start"
+                  size="lg"
+                >
                   <Link to="/login" className="flex items-center">
                     <User className="h-5 w-5 mr-3" />
                     Sign In
                   </Link>
                 </Button>
-                <Button className="w-full bg-dogzilla-purple hover:bg-dogzilla-purple/90" size="lg">
+                <Button
+                  className="w-full bg-dogzilla-purple hover:bg-dogzilla-purple/90"
+                  size="lg"
+                >
                   <Link to="/register">Get Started</Link>
                 </Button>
               </div>

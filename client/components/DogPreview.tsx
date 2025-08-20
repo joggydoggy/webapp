@@ -17,11 +17,11 @@ interface DogData {
 }
 
 interface DesignConfig {
-  style: 'classic' | 'modern' | 'sporty';
+  style: "classic" | "modern" | "sporty";
   fabric: string;
   primaryColor: string;
   secondaryColor: string;
-  size: 'XS' | 'S' | 'M' | 'L' | 'XL';
+  size: "XS" | "S" | "M" | "L" | "XL";
   customFit: {
     collar: number;
     chest: number;
@@ -35,18 +35,21 @@ interface DogPreviewProps {
 }
 
 // Breed-specific characteristics for side view (used as base multipliers)
-const breedCharacteristics: Record<string, {
-  bodyLength: number; // body length multiplier
-  bodyHeight: number; // body height multiplier
-  neckLength: number; // relative neck length
-  legLength: number; // relative leg length
-  headLength: number; // head length (snout to back of head)
-  headHeight: number; // head height
-  backCurve: number; // back curvature (0-1)
-  chestDepth: number; // chest depth multiplier
-  bellyTuck: number; // belly tuck-up (0-1)
-}> = {
-  'Golden Retriever': {
+const breedCharacteristics: Record<
+  string,
+  {
+    bodyLength: number; // body length multiplier
+    bodyHeight: number; // body height multiplier
+    neckLength: number; // relative neck length
+    legLength: number; // relative leg length
+    headLength: number; // head length (snout to back of head)
+    headHeight: number; // head height
+    backCurve: number; // back curvature (0-1)
+    chestDepth: number; // chest depth multiplier
+    bellyTuck: number; // belly tuck-up (0-1)
+  }
+> = {
+  "Golden Retriever": {
     bodyLength: 1.0,
     bodyHeight: 1.0,
     neckLength: 1.0,
@@ -55,9 +58,9 @@ const breedCharacteristics: Record<string, {
     headHeight: 1.0,
     backCurve: 0.1,
     chestDepth: 1.0,
-    bellyTuck: 0.2
+    bellyTuck: 0.2,
   },
-  'French Bulldog': {
+  "French Bulldog": {
     bodyLength: 0.8,
     bodyHeight: 0.9,
     neckLength: 0.6,
@@ -66,9 +69,9 @@ const breedCharacteristics: Record<string, {
     headHeight: 1.3,
     backCurve: 0.05,
     chestDepth: 1.2,
-    bellyTuck: 0.1
+    bellyTuck: 0.1,
   },
-  'Labrador': {
+  Labrador: {
     bodyLength: 1.0,
     bodyHeight: 1.0,
     neckLength: 0.9,
@@ -77,9 +80,9 @@ const breedCharacteristics: Record<string, {
     headHeight: 0.9,
     backCurve: 0.1,
     chestDepth: 1.0,
-    bellyTuck: 0.15
+    bellyTuck: 0.15,
   },
-  'German Shepherd': {
+  "German Shepherd": {
     bodyLength: 1.1,
     bodyHeight: 1.1,
     neckLength: 1.1,
@@ -88,9 +91,9 @@ const breedCharacteristics: Record<string, {
     headHeight: 0.95,
     backCurve: 0.2,
     chestDepth: 0.9,
-    bellyTuck: 0.3
+    bellyTuck: 0.3,
   },
-  'Chihuahua': {
+  Chihuahua: {
     bodyLength: 0.7,
     bodyHeight: 0.6,
     neckLength: 0.7,
@@ -99,9 +102,9 @@ const breedCharacteristics: Record<string, {
     headHeight: 1.4,
     backCurve: 0.05,
     chestDepth: 0.8,
-    bellyTuck: 0.25
+    bellyTuck: 0.25,
   },
-  'Bulldog': {
+  Bulldog: {
     bodyLength: 0.8,
     bodyHeight: 0.8,
     neckLength: 0.5,
@@ -110,8 +113,8 @@ const breedCharacteristics: Record<string, {
     headHeight: 1.2,
     backCurve: 0.05,
     chestDepth: 1.3,
-    bellyTuck: 0.05
-  }
+    bellyTuck: 0.05,
+  },
 };
 
 export default function DogPreview({ dog, design }: DogPreviewProps) {
@@ -154,30 +157,31 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
       [clothingEndX, clothingBackY], // back top (on back)
       [clothingEndX, clothingBellyY], // back bottom
       [bodyStartX + bodyLength * 0.15, clothingBellyY + 5], // front bottom (following chest curve)
-      [clothingStartX - 5, neckConnectionY + 8] // connect near neck
+      [clothingStartX - 5, neckConnectionY + 8], // connect near neck
     ];
 
     // Style-specific modifications
-    if (design.style === 'sporty') {
+    if (design.style === "sporty") {
       // Athletic cut with angled lines
       return [
         [clothingStartX + 12, clothingBackY - 2],
         [clothingEndX - 8, clothingBackY],
         [clothingEndX - 12, clothingBellyY],
         [bodyStartX + bodyLength * 0.15, clothingBellyY + 3],
-        [clothingStartX - 3, neckConnectionY + 10]
+        [clothingStartX - 3, neckConnectionY + 10],
       ];
-    } else if (design.style === 'classic') {
+    } else if (design.style === "classic") {
       // Traditional cut following body lines
       return baseClothing;
-    } else { // modern
+    } else {
+      // modern
       // Contemporary cut with geometric precision
       return [
         [clothingStartX + 8, clothingBackY],
         [clothingEndX - 2, clothingBackY],
         [clothingEndX - 10, clothingBellyY],
         [bodyStartX + bodyLength * 0.18, clothingBellyY + 2],
-        [clothingStartX - 2, neckConnectionY + 6]
+        [clothingStartX - 2, neckConnectionY + 6],
       ];
     }
   };
@@ -194,7 +198,7 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
       [startX, backY + 8], // head back top
       [startX, backY + 8 + headHeight], // head back bottom
       [startX - headLength * 0.3, backY + 8 + headHeight], // jaw back
-      [startX - headLength * 0.9, backY + 8 + headHeight * 0.7] // snout bottom
+      [startX - headLength * 0.9, backY + 8 + headHeight * 0.7], // snout bottom
     ];
 
     // Neck shape (proper trapezoid connecting head to body)
@@ -202,7 +206,7 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
       [startX, backY + 8 + headHeight * 0.7], // neck start from head (upper)
       [startX, backY + 8 + headHeight], // neck start from head (lower)
       [startX + neckLength, backY + bodyHeight * 0.2], // neck end to body (lower)
-      [startX + neckLength, backY] // neck end to body (upper)
+      [startX + neckLength, backY], // neck end to body (upper)
     ];
 
     // Body points (using chest circumference for width)
@@ -213,24 +217,24 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
       [bodyStartX + bodyLength, backY], // body back top
       [bodyStartX + bodyLength, backY + bodyHeight * 0.9], // body back bottom
       [bodyStartX + bodyLength * 0.15, backY + bodyHeight], // body front bottom (chest extends)
-      [bodyStartX, backY + bodyHeight * 0.7] // body front side
+      [bodyStartX, backY + bodyHeight * 0.7], // body front side
     ];
 
     // Leg points (positioned relative to body)
     const frontLeg = [
       [bodyStartX + bodyLength * 0.2, backY + bodyHeight * 0.9],
-      [bodyStartX + bodyLength * 0.2, backY + bodyHeight * 0.9 + legLength]
+      [bodyStartX + bodyLength * 0.2, backY + bodyHeight * 0.9 + legLength],
     ];
 
     const backLeg = [
       [bodyStartX + bodyLength * 0.8, backY + bodyHeight * 0.9],
-      [bodyStartX + bodyLength * 0.8, backY + bodyHeight * 0.9 + legLength]
+      [bodyStartX + bodyLength * 0.8, backY + bodyHeight * 0.9 + legLength],
     ];
 
     // Tail points
     const tailPoints = [
       [bodyStartX + bodyLength, backY + bodyHeight * 0.4],
-      [bodyStartX + bodyLength + 35, backY - 15]
+      [bodyStartX + bodyLength + 35, backY - 15],
     ];
 
     return {
@@ -243,7 +247,7 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
       startX,
       backY,
       bodyStartX,
-      neckThickness
+      neckThickness,
     };
   };
 
@@ -259,7 +263,7 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
             {design.style}
           </Badge>
         </div>
-        
+
         <div className="flex items-center space-x-1">
           <Button
             variant="ghost"
@@ -306,7 +310,7 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
           className="w-full h-full"
           style={{
             transform: `scale(${zoom}) rotate(${rotation}deg)`,
-            transition: 'transform 0.3s ease'
+            transition: "transform 0.3s ease",
           }}
         >
           {/* Ground line */}
@@ -328,7 +332,9 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
               <g>
                 {/* Dog outline - head (more realistic shape) */}
                 <polygon
-                  points={outline.headPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
+                  points={outline.headPoints
+                    .map((p) => `${p[0]},${p[1]}`)
+                    .join(" ")}
                   fill="none"
                   stroke="#6B7280"
                   strokeWidth="2"
@@ -337,7 +343,9 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
 
                 {/* Dog outline - neck (proper trapezoid shape) */}
                 <polygon
-                  points={outline.neckPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
+                  points={outline.neckPoints
+                    .map((p) => `${p[0]},${p[1]}`)
+                    .join(" ")}
                   fill="none"
                   stroke="#6B7280"
                   strokeWidth="2"
@@ -346,7 +354,9 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
 
                 {/* Dog outline - body (following chest measurements) */}
                 <polygon
-                  points={outline.bodyPoints.map(p => `${p[0]},${p[1]}`).join(' ')}
+                  points={outline.bodyPoints
+                    .map((p) => `${p[0]},${p[1]}`)
+                    .join(" ")}
                   fill="none"
                   stroke="#6B7280"
                   strokeWidth="2"
@@ -400,7 +410,9 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
 
                 {/* Clothing overlay (fitted to dog shape) */}
                 <polygon
-                  points={clothingOutline.map(p => `${p[0]},${p[1]}`).join(' ')}
+                  points={clothingOutline
+                    .map((p) => `${p[0]},${p[1]}`)
+                    .join(" ")}
                   fill={design.primaryColor}
                   fillOpacity="0.7"
                   stroke={design.secondaryColor}
@@ -409,7 +421,7 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
                 />
 
                 {/* Style-specific details positioned on clothing */}
-                {design.style === 'sporty' && (
+                {design.style === "sporty" && (
                   <g>
                     <line
                       x1={clothingOutline[0][0] + 15}
@@ -430,7 +442,7 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
                   </g>
                 )}
 
-                {design.style === 'classic' && (
+                {design.style === "classic" && (
                   <g>
                     <circle
                       cx={clothingOutline[0][0] + 25}
@@ -453,7 +465,7 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
                   </g>
                 )}
 
-                {design.style === 'modern' && (
+                {design.style === "modern" && (
                   <polygon
                     points={`${clothingOutline[0][0] + 30},${clothingOutline[0][1] + 15} ${clothingOutline[0][0] + 50},${clothingOutline[0][1] + 8} ${clothingOutline[0][0] + 70},${clothingOutline[0][1] + 15} ${clothingOutline[0][0] + 50},${clothingOutline[0][1] + 22}`}
                     fill={design.secondaryColor}
@@ -497,11 +509,8 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
 
         {/* Fabric indicator */}
         <div className="absolute top-4 right-4">
-          <Badge 
-            variant="secondary" 
-            className="text-xs bg-background/80"
-          >
-            {design.fabric.replace('-', ' ')}
+          <Badge variant="secondary" className="text-xs bg-background/80">
+            {design.fabric.replace("-", " ")}
           </Badge>
         </div>
       </div>

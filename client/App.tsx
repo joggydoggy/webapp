@@ -35,7 +35,7 @@ const App = () => (
                     suggestedActions={[
                       "Add detailed measurements for perfect fit",
                       "Upload photos of your furry friends",
-                      "Save multiple design templates"
+                      "Save multiple design templates",
                     ]}
                   />
                 }
@@ -49,7 +49,7 @@ const App = () => (
                     suggestedActions={[
                       "View order status and tracking",
                       "Reorder your favorite designs",
-                      "Leave reviews for completed orders"
+                      "Leave reviews for completed orders",
                     ]}
                   />
                 }
@@ -63,7 +63,7 @@ const App = () => (
                     suggestedActions={[
                       "Sign in with Google, Facebook, or Apple",
                       "Access your saved dog profiles",
-                      "Continue your design projects"
+                      "Continue your design projects",
                     ]}
                   />
                 }
@@ -77,7 +77,7 @@ const App = () => (
                     suggestedActions={[
                       "Join thousands of happy pet parents",
                       "Get exclusive access to new styles",
-                      "Save your designs and measurements"
+                      "Save your designs and measurements",
                     ]}
                   />
                 }
