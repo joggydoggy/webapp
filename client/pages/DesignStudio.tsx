@@ -94,14 +94,28 @@ export default function DesignStudio() {
     style: 'modern',
     fabric: 'cotton-blend',
     primaryColor: '#8B5CF6', // dogzilla-purple
-    secondaryColor: '#F59E0B', // dogzilla-yellow  
+    secondaryColor: '#F59E0B', // dogzilla-yellow
     size: 'M',
     customFit: {
-      collar: selectedDog.measurements.collar,
-      chest: selectedDog.measurements.chest,
-      length: selectedDog.measurements.length
+      collar: dogs[0].measurements.collar,
+      chest: dogs[0].measurements.chest,
+      length: dogs[0].measurements.length
     }
   });
+
+  // Update custom fit when dog selection changes
+  const handleDogChange = (dogId: string) => {
+    const newDog = dogs.find(d => d.id === dogId)!;
+    setSelectedDog(newDog);
+    setDesign(prev => ({
+      ...prev,
+      customFit: {
+        collar: newDog.measurements.collar,
+        chest: newDog.measurements.chest,
+        length: newDog.measurements.length
+      }
+    }));
+  };
 
   const styles = [
     {
