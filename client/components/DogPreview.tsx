@@ -176,50 +176,68 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
   };
 
   const getDogOutline = () => {
-    // Define key points for low-poly dog outline
+    // Define key points for realistic low-poly dog outline
     const startX = 120;
     const backY = 180;
 
-    // Head points (simple rectangle)
+    // Head points (more realistic dog head shape)
     const headPoints = [
-      [startX, backY + 10], // head back top
-      [startX - headLength, backY + 10], // head front top
-      [startX - headLength, backY + 10 + headHeight], // head front bottom
-      [startX, backY + 10 + headHeight] // head back bottom
+      [startX - headLength * 0.9, backY + 5], // snout top
+      [startX - headLength * 0.2, backY], // forehead top
+      [startX, backY + 8], // head back top
+      [startX, backY + 8 + headHeight], // head back bottom
+      [startX - headLength * 0.3, backY + 8 + headHeight], // jaw back
+      [startX - headLength * 0.9, backY + 8 + headHeight * 0.7] // snout bottom
     ];
 
-    // Neck points (connecting head to body)
+    // Neck shape (proper trapezoid connecting head to body)
     const neckPoints = [
-      [startX, backY + 10 + headHeight], // neck start (from head)
-      [startX + neckLength, backY] // neck end (to body)
+      [startX, backY + 8 + headHeight * 0.7], // neck start from head (upper)
+      [startX, backY + 8 + headHeight], // neck start from head (lower)
+      [startX + neckLength, backY + bodyHeight * 0.2], // neck end to body (lower)
+      [startX + neckLength, backY] // neck end to body (upper)
     ];
 
-    // Body points (main rectangle with slight taper)
+    // Body points (using chest circumference for width)
+    const bodyStartX = startX + neckLength;
+    const chestWidth = bodyWidth;
     const bodyPoints = [
-      [startX + neckLength, backY], // body front top
-      [startX + neckLength + bodyLength, backY], // body back top
-      [startX + neckLength + bodyLength, backY + bodyHeight * 0.8], // body back bottom
-      [startX + neckLength + bodyLength * 0.2, backY + bodyHeight] // body front bottom (chest)
+      [bodyStartX, backY], // body front top
+      [bodyStartX + bodyLength, backY], // body back top
+      [bodyStartX + bodyLength, backY + bodyHeight * 0.9], // body back bottom
+      [bodyStartX + bodyLength * 0.15, backY + bodyHeight], // body front bottom (chest extends)
+      [bodyStartX, backY + bodyHeight * 0.7] // body front side
     ];
 
-    // Leg points (simple lines)
+    // Leg points (positioned relative to body)
     const frontLeg = [
-      [startX + neckLength + bodyLength * 0.25, backY + bodyHeight * 0.8],
-      [startX + neckLength + bodyLength * 0.25, backY + bodyHeight * 0.8 + legLength]
+      [bodyStartX + bodyLength * 0.2, backY + bodyHeight * 0.9],
+      [bodyStartX + bodyLength * 0.2, backY + bodyHeight * 0.9 + legLength]
     ];
 
     const backLeg = [
-      [startX + neckLength + bodyLength * 0.75, backY + bodyHeight * 0.8],
-      [startX + neckLength + bodyLength * 0.75, backY + bodyHeight * 0.8 + legLength]
+      [bodyStartX + bodyLength * 0.8, backY + bodyHeight * 0.9],
+      [bodyStartX + bodyLength * 0.8, backY + bodyHeight * 0.9 + legLength]
     ];
 
-    // Tail points (simple line)
+    // Tail points
     const tailPoints = [
-      [startX + neckLength + bodyLength, backY + bodyHeight * 0.4],
-      [startX + neckLength + bodyLength + 30, backY - 20]
+      [bodyStartX + bodyLength, backY + bodyHeight * 0.4],
+      [bodyStartX + bodyLength + 35, backY - 15]
     ];
 
-    return { headPoints, neckPoints, bodyPoints, frontLeg, backLeg, tailPoints, startX, backY };
+    return {
+      headPoints,
+      neckPoints,
+      bodyPoints,
+      frontLeg,
+      backLeg,
+      tailPoints,
+      startX,
+      backY,
+      bodyStartX,
+      neckThickness
+    };
   };
 
   return (
