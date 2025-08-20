@@ -196,57 +196,143 @@ export default function DesignStudio() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Design Controls */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Dog Selection */}
+            {/* Dog Information */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Heart className="w-5 h-5 mr-2 text-dogzilla-purple" />
-                  Select Your Dog
+                  Your Dog's Information
                 </CardTitle>
-                <CardDescription>Choose which dog you're designing for</CardDescription>
+                <CardDescription>Enter your dog's details and measurements for a custom fit</CardDescription>
               </CardHeader>
-              <CardContent>
-                <Select value={selectedDog.id} onValueChange={handleDogChange}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {dogs.map(dog => (
-                      <SelectItem key={dog.id} value={dog.id}>
-                        <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-dogzilla-purple/10 rounded-full flex items-center justify-center">
-                            <Heart className="w-4 h-4 text-dogzilla-purple" />
-                          </div>
-                          <div>
-                            <div className="font-medium">{dog.name}</div>
-                            <div className="text-sm text-muted-foreground">{dog.breed}</div>
-                          </div>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                
-                <div className="mt-4 p-4 bg-muted/50 rounded-lg">
-                  <h4 className="font-medium mb-2">{selectedDog.name}'s Measurements</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <CardContent className="space-y-6">
+                {/* Basic Info */}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="dog-name" className="text-sm font-medium">Dog's Name</Label>
+                    <input
+                      id="dog-name"
+                      type="text"
+                      value={dogData.name}
+                      onChange={(e) => updateDogInfo('name', e.target.value)}
+                      className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                      placeholder="Enter your dog's name"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="dog-breed" className="text-sm font-medium">Breed</Label>
+                    <input
+                      id="dog-breed"
+                      type="text"
+                      value={dogData.breed}
+                      onChange={(e) => updateDogInfo('breed', e.target.value)}
+                      className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                      placeholder="e.g., Golden Retriever, Mixed Breed"
+                    />
+                  </div>
+                </div>
+
+                {/* Measurements */}
+                <div>
+                  <h4 className="font-medium mb-4 flex items-center">
+                    <Ruler className="w-4 h-4 mr-2" />
+                    Measurements (in centimeters)
+                  </h4>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div>
-                      <span className="text-muted-foreground">Collar:</span>
-                      <span className="ml-1 font-medium">{selectedDog.measurements.collar}cm</span>
+                      <Label htmlFor="collar" className="text-sm font-medium">Collar Circumference</Label>
+                      <input
+                        id="collar"
+                        type="number"
+                        min="15"
+                        max="80"
+                        value={dogData.measurements.collar}
+                        onChange={(e) => updateDogMeasurement('collar', Number(e.target.value))}
+                        className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Around the neck</p>
                     </div>
+
                     <div>
-                      <span className="text-muted-foreground">Chest:</span>
-                      <span className="ml-1 font-medium">{selectedDog.measurements.chest}cm</span>
+                      <Label htmlFor="chest" className="text-sm font-medium">Chest Circumference</Label>
+                      <input
+                        id="chest"
+                        type="number"
+                        min="25"
+                        max="120"
+                        value={dogData.measurements.chest}
+                        onChange={(e) => updateDogMeasurement('chest', Number(e.target.value))}
+                        className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Around the widest part</p>
                     </div>
+
                     <div>
-                      <span className="text-muted-foreground">Length:</span>
-                      <span className="ml-1 font-medium">{selectedDog.measurements.length}cm</span>
+                      <Label htmlFor="length" className="text-sm font-medium">Back Length</Label>
+                      <input
+                        id="length"
+                        type="number"
+                        min="15"
+                        max="100"
+                        value={dogData.measurements.length}
+                        onChange={(e) => updateDogMeasurement('length', Number(e.target.value))}
+                        className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Base of neck to tail</p>
                     </div>
+
                     <div>
-                      <span className="text-muted-foreground">Weight:</span>
-                      <span className="ml-1 font-medium">{selectedDog.measurements.weight}kg</span>
+                      <Label htmlFor="height" className="text-sm font-medium">Height at Shoulder</Label>
+                      <input
+                        id="height"
+                        type="number"
+                        min="15"
+                        max="100"
+                        value={dogData.measurements.height}
+                        onChange={(e) => updateDogMeasurement('height', Number(e.target.value))}
+                        className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Ground to shoulder</p>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="neck-length" className="text-sm font-medium">Neck Length</Label>
+                      <input
+                        id="neck-length"
+                        type="number"
+                        min="8"
+                        max="40"
+                        value={dogData.measurements.neckLength}
+                        onChange={(e) => updateDogMeasurement('neckLength', Number(e.target.value))}
+                        className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Head to shoulder</p>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="weight" className="text-sm font-medium">Weight (kg)</Label>
+                      <input
+                        id="weight"
+                        type="number"
+                        min="1"
+                        max="80"
+                        value={dogData.measurements.weight}
+                        onChange={(e) => updateDogMeasurement('weight', Number(e.target.value))}
+                        className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">Current weight</p>
                     </div>
                   </div>
+                </div>
+
+                <div className="p-4 bg-dogzilla-yellow/10 border border-dogzilla-yellow/20 rounded-lg">
+                  <h5 className="font-medium text-sm mb-2">📏 Measurement Tips</h5>
+                  <ul className="text-xs text-muted-foreground space-y-1">
+                    <li>• Use a soft measuring tape for accurate results</li>
+                    <li>• Measure when your dog is standing calmly</li>
+                    <li>• Add 2-5cm for comfort depending on desired fit</li>
+                    <li>• For chest, measure at the widest part behind front legs</li>
+                  </ul>
                 </div>
               </CardContent>
             </Card>
