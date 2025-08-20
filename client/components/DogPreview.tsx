@@ -183,44 +183,25 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
   };
 
   const getDogBodyPath = () => {
-    const centerX = 200;
-    const startY = 120 + neckLength;
-    
-    // Body shape varies by breed characteristics
-    const bodyStartX = (400 - dogWidth) / 2;
-    const bodyEndX = bodyStartX + dogWidth;
-    
-    if (characteristics.bodyShape === 'stocky') {
-      return `
-        M ${bodyStartX + dogWidth * 0.1} ${startY}
-        L ${bodyEndX - dogWidth * 0.1} ${startY}
-        Q ${bodyEndX} ${startY + dogHeight * 0.2} ${bodyEndX - dogWidth * 0.05} ${startY + dogHeight * 0.6}
-        L ${bodyEndX - dogWidth * 0.15} ${startY + dogHeight * 0.9}
-        L ${bodyStartX + dogWidth * 0.15} ${startY + dogHeight * 0.9}
-        Q ${bodyStartX} ${startY + dogHeight * 0.2} ${bodyStartX + dogWidth * 0.1} ${startY}
-        Z
-      `;
-    } else if (characteristics.bodyShape === 'slim') {
-      return `
-        M ${bodyStartX + dogWidth * 0.2} ${startY}
-        L ${bodyEndX - dogWidth * 0.2} ${startY}
-        Q ${bodyEndX - dogWidth * 0.1} ${startY + dogHeight * 0.3} ${bodyEndX - dogWidth * 0.15} ${startY + dogHeight * 0.7}
-        L ${bodyEndX - dogWidth * 0.25} ${startY + dogHeight * 0.95}
-        L ${bodyStartX + dogWidth * 0.25} ${startY + dogHeight * 0.95}
-        Q ${bodyStartX + dogWidth * 0.1} ${startY + dogHeight * 0.3} ${bodyStartX + dogWidth * 0.2} ${startY}
-        Z
-      `;
-    } else { // athletic
-      return `
-        M ${bodyStartX + dogWidth * 0.15} ${startY}
-        L ${bodyEndX - dogWidth * 0.15} ${startY}
-        Q ${bodyEndX} ${startY + dogHeight * 0.25} ${bodyEndX - dogWidth * 0.1} ${startY + dogHeight * 0.65}
-        L ${bodyEndX - dogWidth * 0.2} ${startY + dogHeight * 0.9}
-        L ${bodyStartX + dogWidth * 0.2} ${startY + dogHeight * 0.9}
-        Q ${bodyStartX} ${startY + dogHeight * 0.25} ${bodyStartX + dogWidth * 0.15} ${startY}
-        Z
-      `;
-    }
+    // Side view body coordinates
+    const bodyStartX = 120 + neckLength;
+    const bodyEndX = bodyStartX + bodyLength;
+    const backY = 180; // Top of back
+    const bellyY = backY + bodyHeight;
+    const chestX = bodyStartX + bodyLength * 0.15; // Chest position
+    const backCurveControl = backY + (bodyHeight * characteristics.backCurve * 20);
+    const bellyTuckY = bellyY - (bodyHeight * characteristics.bellyTuck);
+
+    // Create realistic side profile based on breed characteristics
+    return `
+      M ${bodyStartX} ${backY + 10}
+      Q ${chestX} ${backCurveControl} ${bodyEndX - 20} ${backY + 5}
+      Q ${bodyEndX - 5} ${backY + 15} ${bodyEndX - 10} ${backY + bodyHeight * 0.7}
+      L ${bodyEndX - 15} ${bellyTuckY}
+      Q ${bodyStartX + bodyLength * 0.7} ${bellyY - 5} ${chestX} ${bellyY - 10}
+      Q ${bodyStartX + 10} ${bellyY - 5} ${bodyStartX - 5} ${backY + 35}
+      Z
+    `;
   };
 
   return (
