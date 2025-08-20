@@ -270,47 +270,47 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
           <ellipse
             cx="200"
             cy="380"
-            rx={dogWidth * 0.6}
-            ry="15"
+            rx={bodyLength * 0.6}
+            ry="12"
             fill="rgba(0,0,0,0.1)"
           />
-          
-          {/* Dog legs */}
+
+          {/* Dog legs (side view - front and back legs visible) */}
           <g>
-            {/* Front legs */}
+            {/* Front leg (visible) */}
             <rect
-              x={180 - dogWidth * 0.25}
-              y={120 + neckLength + dogHeight * 0.7}
-              width="12"
+              x={125 + neckLength + bodyLength * 0.2}
+              y={180 + bodyHeight * 0.8}
+              width="10"
               height={legLength}
-              rx="6"
+              rx="5"
               fill="#8B5A3C"
             />
+
+            {/* Back leg (visible) */}
             <rect
-              x={200 - dogWidth * 0.25}
-              y={120 + neckLength + dogHeight * 0.7}
-              width="12"
+              x={125 + neckLength + bodyLength * 0.65}
+              y={180 + bodyHeight * 0.8}
+              width="10"
               height={legLength}
-              rx="6"
+              rx="5"
               fill="#8B5A3C"
             />
-            
-            {/* Back legs */}
-            <rect
-              x={180 + dogWidth * 0.15}
-              y={120 + neckLength + dogHeight * 0.7}
-              width="12"
-              height={legLength}
-              rx="6"
-              fill="#8B5A3C"
+
+            {/* Paws */}
+            <ellipse
+              cx={130 + neckLength + bodyLength * 0.2}
+              cy={180 + bodyHeight * 0.8 + legLength + 5}
+              rx="8"
+              ry="4"
+              fill="#6B4226"
             />
-            <rect
-              x={200 + dogWidth * 0.15}
-              y={120 + neckLength + dogHeight * 0.7}
-              width="12"
-              height={legLength}
-              rx="6"
-              fill="#8B5A3C"
+            <ellipse
+              cx={130 + neckLength + bodyLength * 0.65}
+              cy={180 + bodyHeight * 0.8 + legLength + 5}
+              rx="8"
+              ry="4"
+              fill="#6B4226"
             />
           </g>
 
@@ -322,70 +322,70 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
             strokeWidth="2"
           />
 
-          {/* Dog head */}
+          {/* Dog head (side profile) */}
           <ellipse
-            cx="200"
-            cy={100}
-            rx={headSize * 0.8}
-            ry={headSize * 0.6}
+            cx={105}
+            cy={200}
+            rx={headLength}
+            ry={headHeight}
             fill="#D4A574"
             stroke="#B8956A"
             strokeWidth="2"
           />
 
+          {/* Dog snout */}
+          <ellipse
+            cx={105 - headLength * 0.6}
+            cy={200 + headHeight * 0.1}
+            rx={headLength * 0.4}
+            ry={headHeight * 0.3}
+            fill="#C49968"
+            stroke="#B8956A"
+            strokeWidth="1"
+          />
+
           {/* Dog neck */}
-          <rect
-            x={200 - (collarWidth * 0.3)}
-            y={100 + headSize * 0.4}
-            width={collarWidth * 0.6}
-            height={neckLength}
+          <path
+            d={`M ${105 + headLength * 0.6} ${200 - headHeight * 0.4}
+                L ${120 + neckLength * 0.3} ${185}
+                L ${120 + neckLength} ${180}
+                L ${105 + headLength * 0.4} ${200 + headHeight * 0.6}
+                Z`}
             fill="#D4A574"
             stroke="#B8956A"
             strokeWidth="1"
           />
 
           {/* Collar */}
-          <rect
-            x={200 - (collarWidth * 0.35)}
-            y={105 + headSize * 0.4}
-            width={collarWidth * 0.7}
-            height="8"
-            rx="4"
+          <ellipse
+            cx={108}
+            cy={205}
+            rx={design.customFit.collar * 0.15}
+            ry="6"
             fill={design.secondaryColor}
             stroke={design.primaryColor}
             strokeWidth="1"
           />
 
-          {/* Dog ears */}
+          {/* Dog ear (side view - one ear visible) */}
           <ellipse
-            cx={200 - headSize * 0.4}
-            cy={95}
-            rx={headSize * 0.25}
-            ry={headSize * 0.4}
-            fill="#C49968"
-            stroke="#B8956A"
-            strokeWidth="1"
-          />
-          <ellipse
-            cx={200 + headSize * 0.4}
-            cy={95}
-            rx={headSize * 0.25}
-            ry={headSize * 0.4}
+            cx={105 + headLength * 0.2}
+            cy={200 - headHeight * 0.6}
+            rx={headLength * 0.3}
+            ry={headHeight * 0.4}
             fill="#C49968"
             stroke="#B8956A"
             strokeWidth="1"
           />
 
-          {/* Dog eyes */}
-          <circle cx={200 - headSize * 0.25} cy={95} r="3" fill="#2D3748" />
-          <circle cx={200 + headSize * 0.25} cy={95} r="3" fill="#2D3748" />
-          <circle cx={200 - headSize * 0.25} cy={94} r="1" fill="white" />
-          <circle cx={200 + headSize * 0.25} cy={94} r="1" fill="white" />
+          {/* Dog eye (side view - one eye visible) */}
+          <circle cx={105 - headLength * 0.2} cy={200 - headHeight * 0.1} r="4" fill="#2D3748" />
+          <circle cx={105 - headLength * 0.2} cy={200 - headHeight * 0.15} r="1.5" fill="white" />
 
           {/* Dog nose */}
-          <ellipse cx="200" cy={100 + headSize * 0.2} rx="4" ry="3" fill="#2D3748" />
+          <ellipse cx={105 - headLength * 0.85} cy={200 + headHeight * 0.1} rx="3" ry="2" fill="#2D3748" />
 
-          {/* Clothing */}
+          {/* Clothing fitted to body */}
           <path
             d={getClothingPath()}
             fill={design.primaryColor}
@@ -397,40 +397,36 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
           {/* Clothing details based on style */}
           {design.style === 'sporty' && (
             <g>
-              {/* Sport stripes */}
-              <line
-                x1={(400 - chestWidth) / 2 + chestWidth * 0.2}
-                y1={130 + neckLength}
-                x2={(400 - chestWidth) / 2 + chestWidth * 0.8}
-                y2={130 + neckLength}
+              {/* Sport stripes following body curve */}
+              <path
+                d={`M ${130 + neckLength} 190 Q ${160 + neckLength} 188 ${190 + neckLength} 192`}
                 stroke={design.secondaryColor}
                 strokeWidth="3"
+                fill="none"
               />
-              <line
-                x1={(400 - chestWidth) / 2 + chestWidth * 0.25}
-                y1={150 + neckLength}
-                x2={(400 - chestWidth) / 2 + chestWidth * 0.75}
-                y2={150 + neckLength}
+              <path
+                d={`M ${135 + neckLength} 200 Q ${165 + neckLength} 198 ${185 + neckLength} 202`}
                 stroke={design.secondaryColor}
                 strokeWidth="2"
+                fill="none"
               />
             </g>
           )}
 
           {design.style === 'classic' && (
             <g>
-              {/* Classic button details */}
+              {/* Classic buttons along the side */}
               <circle
-                cx="200"
-                cy={140 + neckLength}
+                cx={140 + neckLength}
+                cy={195}
                 r="3"
                 fill={design.secondaryColor}
                 stroke="white"
                 strokeWidth="1"
               />
               <circle
-                cx="200"
-                cy={160 + neckLength}
+                cx={160 + neckLength}
+                cy={198}
                 r="3"
                 fill={design.secondaryColor}
                 stroke="white"
@@ -441,20 +437,20 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
 
           {design.style === 'modern' && (
             <g>
-              {/* Modern geometric pattern */}
+              {/* Modern geometric accent */}
               <polygon
-                points={`${200 - 15},${135 + neckLength} ${200},${125 + neckLength} ${200 + 15},${135 + neckLength} ${200},${145 + neckLength}`}
+                points={`${145 + neckLength},190 ${160 + neckLength},185 ${175 + neckLength},190 ${160 + neckLength},195`}
                 fill={design.secondaryColor}
                 opacity="0.8"
               />
             </g>
           )}
 
-          {/* Dog tail */}
+          {/* Dog tail (side view) */}
           <path
-            d={`M ${200 + dogWidth * 0.4} ${140 + neckLength + dogHeight * 0.3}
-                Q ${200 + dogWidth * 0.6} ${120 + neckLength + dogHeight * 0.2}
-                  ${200 + dogWidth * 0.5} ${100 + neckLength + dogHeight * 0.1}`}
+            d={`M ${120 + neckLength + bodyLength - 15} ${190 + bodyHeight * 0.4}
+                Q ${140 + neckLength + bodyLength} ${170 + bodyHeight * 0.2}
+                  ${145 + neckLength + bodyLength} ${160 + bodyHeight * 0.1}`}
             stroke="#D4A574"
             strokeWidth="8"
             fill="none"
