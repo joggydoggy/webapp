@@ -544,7 +544,7 @@ export default function DesignStudio() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Dog:</span>
-                    <span className="font-medium">{selectedDog.name}</span>
+                    <span className="font-medium">{dogData.name}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Style:</span>
