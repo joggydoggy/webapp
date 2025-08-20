@@ -33,55 +33,83 @@ interface DogPreviewProps {
   design: DesignConfig;
 }
 
-// Breed-specific characteristics for different dog shapes
+// Breed-specific characteristics for side view
 const breedCharacteristics: Record<string, {
-  bodyRatio: number; // length to height ratio
+  bodyLength: number; // body length multiplier
+  bodyHeight: number; // body height multiplier
   neckLength: number; // relative neck length
   legLength: number; // relative leg length
-  headSize: number; // relative head size
-  bodyShape: 'slim' | 'stocky' | 'athletic';
+  headLength: number; // head length (snout to back of head)
+  headHeight: number; // head height
+  backCurve: number; // back curvature (0-1)
+  chestDepth: number; // chest depth multiplier
+  bellyTuck: number; // belly tuck-up (0-1)
 }> = {
   'Golden Retriever': {
-    bodyRatio: 1.3,
+    bodyLength: 1.0,
+    bodyHeight: 1.0,
     neckLength: 1.0,
     legLength: 1.0,
-    headSize: 1.0,
-    bodyShape: 'athletic'
+    headLength: 1.0,
+    headHeight: 1.0,
+    backCurve: 0.1,
+    chestDepth: 1.0,
+    bellyTuck: 0.2
   },
   'French Bulldog': {
-    bodyRatio: 1.1,
-    neckLength: 0.7,
-    legLength: 0.8,
-    headSize: 1.3,
-    bodyShape: 'stocky'
-  },
-  'Labrador': {
-    bodyRatio: 1.2,
-    neckLength: 0.9,
-    legLength: 1.0,
-    headSize: 1.0,
-    bodyShape: 'athletic'
-  },
-  'German Shepherd': {
-    bodyRatio: 1.4,
-    neckLength: 1.1,
-    legLength: 1.1,
-    headSize: 1.0,
-    bodyShape: 'athletic'
-  },
-  'Chihuahua': {
-    bodyRatio: 1.0,
-    neckLength: 0.8,
-    legLength: 0.7,
-    headSize: 1.4,
-    bodyShape: 'slim'
-  },
-  'Bulldog': {
-    bodyRatio: 1.0,
+    bodyLength: 0.8,
+    bodyHeight: 0.9,
     neckLength: 0.6,
     legLength: 0.7,
-    headSize: 1.2,
-    bodyShape: 'stocky'
+    headLength: 1.1,
+    headHeight: 1.3,
+    backCurve: 0.05,
+    chestDepth: 1.2,
+    bellyTuck: 0.1
+  },
+  'Labrador': {
+    bodyLength: 1.0,
+    bodyHeight: 1.0,
+    neckLength: 0.9,
+    legLength: 1.0,
+    headLength: 0.9,
+    headHeight: 0.9,
+    backCurve: 0.1,
+    chestDepth: 1.0,
+    bellyTuck: 0.15
+  },
+  'German Shepherd': {
+    bodyLength: 1.1,
+    bodyHeight: 1.1,
+    neckLength: 1.1,
+    legLength: 1.1,
+    headLength: 1.0,
+    headHeight: 0.95,
+    backCurve: 0.2,
+    chestDepth: 0.9,
+    bellyTuck: 0.3
+  },
+  'Chihuahua': {
+    bodyLength: 0.7,
+    bodyHeight: 0.6,
+    neckLength: 0.7,
+    legLength: 0.6,
+    headLength: 1.2,
+    headHeight: 1.4,
+    backCurve: 0.05,
+    chestDepth: 0.8,
+    bellyTuck: 0.25
+  },
+  'Bulldog': {
+    bodyLength: 0.8,
+    bodyHeight: 0.8,
+    neckLength: 0.5,
+    legLength: 0.6,
+    headLength: 1.1,
+    headHeight: 1.2,
+    backCurve: 0.05,
+    chestDepth: 1.3,
+    bellyTuck: 0.05
   }
 };
 
