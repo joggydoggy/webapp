@@ -50,47 +50,20 @@ interface DesignConfig {
 }
 
 export default function DesignStudio() {
-  // Mock dog data - in real app this would come from user's profiles
-  const [dogs] = useState<Dog[]>([
-    {
-      id: '1',
-      name: 'Buddy',
-      breed: 'Golden Retriever',
-      measurements: { collar: 45, chest: 65, length: 55, weight: 30 }
-    },
-    {
-      id: '2',
-      name: 'Luna',
-      breed: 'French Bulldog',
-      measurements: { collar: 35, chest: 55, length: 40, weight: 12 }
-    },
-    {
-      id: '3',
-      name: 'Max',
-      breed: 'German Shepherd',
-      measurements: { collar: 50, chest: 70, length: 60, weight: 35 }
-    },
-    {
-      id: '4',
-      name: 'Bella',
-      breed: 'Labrador',
-      measurements: { collar: 42, chest: 62, length: 52, weight: 28 }
-    },
-    {
-      id: '5',
-      name: 'Mochi',
-      breed: 'Chihuahua',
-      measurements: { collar: 25, chest: 35, length: 28, weight: 3 }
-    },
-    {
-      id: '6',
-      name: 'Tank',
-      breed: 'Bulldog',
-      measurements: { collar: 40, chest: 60, length: 45, weight: 25 }
+  // User's dog data - entered by user
+  const [dogData, setDogData] = useState<DogData>({
+    name: 'My Dog',
+    breed: 'Mixed Breed',
+    measurements: {
+      collar: 40,
+      chest: 60,
+      length: 50,
+      weight: 20,
+      height: 45,
+      neckLength: 15
     }
-  ]);
+  });
 
-  const [selectedDog, setSelectedDog] = useState<Dog>(dogs[0]);
   const [design, setDesign] = useState<DesignConfig>({
     style: 'modern',
     fabric: 'cotton-blend',
@@ -98,23 +71,38 @@ export default function DesignStudio() {
     secondaryColor: '#F59E0B', // dogzilla-yellow
     size: 'M',
     customFit: {
-      collar: dogs[0].measurements.collar,
-      chest: dogs[0].measurements.chest,
-      length: dogs[0].measurements.length
+      collar: 40,
+      chest: 60,
+      length: 50
     }
   });
 
-  // Update custom fit when dog selection changes
-  const handleDogChange = (dogId: string) => {
-    const newDog = dogs.find(d => d.id === dogId)!;
-    setSelectedDog(newDog);
-    setDesign(prev => ({
+  // Update custom fit when dog measurements change
+  const updateDogMeasurement = (key: keyof DogData['measurements'], value: number) => {
+    setDogData(prev => ({
       ...prev,
-      customFit: {
-        collar: newDog.measurements.collar,
-        chest: newDog.measurements.chest,
-        length: newDog.measurements.length
+      measurements: {
+        ...prev.measurements,
+        [key]: value
       }
+    }));
+
+    // Update design custom fit for relevant measurements
+    if (key === 'collar' || key === 'chest' || key === 'length') {
+      setDesign(prev => ({
+        ...prev,
+        customFit: {
+          ...prev.customFit,
+          [key]: value
+        }
+      }));
+    }
+  };
+
+  const updateDogInfo = (key: 'name' | 'breed', value: string) => {
+    setDogData(prev => ({
+      ...prev,
+      [key]: value
     }));
   };
 
