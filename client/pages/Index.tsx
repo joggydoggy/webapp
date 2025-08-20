@@ -29,7 +29,7 @@ export default function Index() {
             </Badge>
             
             <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-dogzilla-purple via-dogzilla-orange to-dogzilla-purple bg-clip-text text-transparent mb-6">
-              DOGZILLA
+              JOGGYDOGGY
             </h1>
             
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
