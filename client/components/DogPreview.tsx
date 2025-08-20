@@ -118,21 +118,22 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
 
+  // Use breed characteristics as modifiers, fallback to balanced proportions
   const characteristics = breedCharacteristics[dog.breed] || breedCharacteristics['Golden Retriever'];
 
-  // Calculate sizes based on measurements and breed characteristics for side view
-  const baseScale = 3; // Base scaling factor
+  // Calculate sizes based on user's measurements and breed characteristics for side view
+  const baseScale = 2.5; // Base scaling factor for display
   const bodyLength = dog.measurements.length * baseScale * characteristics.bodyLength;
-  const bodyHeight = dog.measurements.chest * 0.6 * baseScale * characteristics.bodyHeight;
-  const headLength = (bodyLength * 0.25) * characteristics.headLength;
-  const headHeight = (bodyHeight * 0.4) * characteristics.headHeight;
-  const neckLength = (bodyLength * 0.15) * characteristics.neckLength;
-  const legLength = (bodyHeight * 0.6) * characteristics.legLength;
+  const bodyHeight = dog.measurements.height * baseScale * characteristics.bodyHeight;
+  const headLength = (dog.measurements.neckLength * 0.8 * baseScale) * characteristics.headLength;
+  const headHeight = (bodyHeight * 0.35) * characteristics.headHeight;
+  const neckLength = dog.measurements.neckLength * baseScale * characteristics.neckLength;
+  const legLength = (bodyHeight * 0.65) * characteristics.legLength;
   const chestDepth = bodyHeight * characteristics.chestDepth;
 
   // Calculate clothing dimensions based on custom fit for side view
-  const clothingLength = design.customFit.length * baseScale * 0.9; // Slightly shorter than body
-  const clothingHeight = design.customFit.chest * 0.4 * baseScale; // Height of clothing on body
+  const clothingLength = design.customFit.length * baseScale * 0.85; // Slightly shorter than body
+  const clothingHeight = (design.customFit.chest * 0.3 * baseScale); // Height of clothing on body
 
   // Style-specific clothing shapes for side view (fitted to dog body)
   const getClothingPath = () => {
