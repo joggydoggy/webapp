@@ -118,19 +118,20 @@ export default function DogPreview({ dog, design }: DogPreviewProps) {
   const [zoom, setZoom] = useState(1);
 
   const characteristics = breedCharacteristics[dog.breed] || breedCharacteristics['Golden Retriever'];
-  
-  // Calculate sizes based on measurements and breed characteristics
-  const baseSize = Math.min(dog.measurements.chest, dog.measurements.length) * 2;
-  const dogWidth = dog.measurements.chest * 2.2;
-  const dogHeight = (dog.measurements.length / characteristics.bodyRatio) * 2;
-  const headSize = (dogWidth * 0.4) * characteristics.headSize;
-  const neckLength = (dogHeight * 0.15) * characteristics.neckLength;
-  const legLength = (dogHeight * 0.4) * characteristics.legLength;
 
-  // Calculate clothing dimensions based on custom fit
-  const collarWidth = design.customFit.collar * 2;
-  const chestWidth = design.customFit.chest * 2.2;
-  const clothingLength = design.customFit.length * 2;
+  // Calculate sizes based on measurements and breed characteristics for side view
+  const baseScale = 3; // Base scaling factor
+  const bodyLength = dog.measurements.length * baseScale * characteristics.bodyLength;
+  const bodyHeight = dog.measurements.chest * 0.6 * baseScale * characteristics.bodyHeight;
+  const headLength = (bodyLength * 0.25) * characteristics.headLength;
+  const headHeight = (bodyHeight * 0.4) * characteristics.headHeight;
+  const neckLength = (bodyLength * 0.15) * characteristics.neckLength;
+  const legLength = (bodyHeight * 0.6) * characteristics.legLength;
+  const chestDepth = bodyHeight * characteristics.chestDepth;
+
+  // Calculate clothing dimensions based on custom fit for side view
+  const clothingLength = design.customFit.length * baseScale * 0.9; // Slightly shorter than body
+  const clothingHeight = design.customFit.chest * 0.4 * baseScale; // Height of clothing on body
 
   // Style-specific clothing shapes
   const getClothingPath = () => {
