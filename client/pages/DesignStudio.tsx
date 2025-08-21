@@ -107,11 +107,52 @@ export default function DesignStudio() {
     secondaryColor: "#F59E0B", // dogzilla-yellow
     size: "M",
     customFit: {
-      collar: 40,
-      chest: 60,
-      length: 50,
+      collar: selectedPet.measurements.collar,
+      chest: selectedPet.measurements.chest,
+      length: selectedPet.measurements.length,
     },
   });
+
+  // Handle pet selection change
+  const handlePetSelection = (petId: string) => {
+    const pet = availablePets.find(p => p.id === petId);
+    if (pet) {
+      setSelectedPetId(petId);
+      setDogData({
+        name: pet.name,
+        breed: pet.breed,
+        measurements: pet.measurements,
+      });
+      setDesign(prev => ({
+        ...prev,
+        customFit: {
+          collar: pet.measurements.collar,
+          chest: pet.measurements.chest,
+          length: pet.measurements.length,
+        },
+      }));
+    }
+  };
+
+  // Handle loading a saved prototype
+  const handleLoadPrototype = (prototype: any) => {
+    setDesign(prototype.design);
+    // Update dog data if needed
+    const pet = availablePets.find(p => p.id === prototype.petId);
+    if (pet) {
+      setDogData({
+        name: pet.name,
+        breed: pet.breed,
+        measurements: pet.measurements,
+      });
+    }
+  };
+
+  // Handle saving a prototype
+  const handleSavePrototype = (name: string) => {
+    console.log(`Saved prototype "${name}" for ${dogData.name}`);
+    // In real app, this would save to API/database
+  };
 
   // Update custom fit when dog measurements change
   const updateDogMeasurement = (
