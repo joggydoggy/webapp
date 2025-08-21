@@ -27,20 +27,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/customize" element={<DesignStudio />} />
-              <Route
-                path="/profiles"
-                element={
-                  <Placeholder
-                    title="My Dogs"
-                    description="Manage your dog profiles and measurements"
-                    suggestedActions={[
-                      "Add detailed measurements for perfect fit",
-                      "Upload photos of your furry friends",
-                      "Save multiple design templates",
-                    ]}
-                  />
-                }
-              />
+              <Route path="/profiles" element={<Profiles />} />
               <Route
                 path="/orders"
                 element={
