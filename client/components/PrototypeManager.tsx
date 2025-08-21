@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { 
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -11,16 +17,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { 
-  Save, 
-  FolderOpen, 
-  Copy, 
-  Trash2, 
+import {
+  Save,
+  FolderOpen,
+  Copy,
+  Trash2,
   Star,
   StarOff,
   Calendar,
   Palette,
-  ShoppingCart
+  ShoppingCart,
 } from "lucide-react";
 
 interface DesignPrototype {
@@ -32,11 +38,11 @@ interface DesignPrototype {
   dateModified: string;
   isFavorite: boolean;
   design: {
-    style: 'classic' | 'modern' | 'sporty';
+    style: "classic" | "modern" | "sporty";
     fabric: string;
     primaryColor: string;
     secondaryColor: string;
-    size: 'XS' | 'S' | 'M' | 'L' | 'XL';
+    size: "XS" | "S" | "M" | "L" | "XL";
     customFit: {
       collar: number;
       chest: number;
@@ -55,12 +61,12 @@ interface PrototypeManagerProps {
   onSavePrototype: (name: string) => void;
 }
 
-export default function PrototypeManager({ 
-  currentDesign, 
-  selectedPetId, 
+export default function PrototypeManager({
+  currentDesign,
+  selectedPetId,
   selectedPetName,
-  onLoadPrototype, 
-  onSavePrototype 
+  onLoadPrototype,
+  onSavePrototype,
 }: PrototypeManagerProps) {
   const [prototypes, setPrototypes] = useState<DesignPrototype[]>([
     {
@@ -72,17 +78,17 @@ export default function PrototypeManager({
       dateModified: "2024-01-15",
       isFavorite: true,
       design: {
-        style: 'modern',
-        fabric: 'cotton-blend',
-        primaryColor: '#3B82F6',
-        secondaryColor: '#F59E0B',
-        size: 'M',
-        customFit: { collar: 45, chest: 75, length: 55 }
+        style: "modern",
+        fabric: "cotton-blend",
+        primaryColor: "#3B82F6",
+        secondaryColor: "#F59E0B",
+        size: "M",
+        customFit: { collar: 45, chest: 75, length: 55 },
       },
-      estimatedPrice: 49.99
+      estimatedPrice: 49.99,
     },
     {
-      id: "2", 
+      id: "2",
       name: "Winter Warmth",
       petId: "1",
       petName: "Buddy",
@@ -90,41 +96,45 @@ export default function PrototypeManager({
       dateModified: "2024-01-12",
       isFavorite: false,
       design: {
-        style: 'classic',
-        fabric: 'fleece',
-        primaryColor: '#DC2626',
-        secondaryColor: '#FFFFFF',
-        size: 'M',
-        customFit: { collar: 45, chest: 75, length: 55 }
+        style: "classic",
+        fabric: "fleece",
+        primaryColor: "#DC2626",
+        secondaryColor: "#FFFFFF",
+        size: "M",
+        customFit: { collar: 45, chest: 75, length: 55 },
       },
-      estimatedPrice: 54.99
-    }
+      estimatedPrice: 54.99,
+    },
   ]);
 
   const [isShowingPrototypes, setIsShowingPrototypes] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [prototypeName, setPrototypeName] = useState("");
   const [compareMode, setCompareMode] = useState(false);
-  const [selectedForComparison, setSelectedForComparison] = useState<string[]>([]);
+  const [selectedForComparison, setSelectedForComparison] = useState<string[]>(
+    [],
+  );
 
-  const currentPetPrototypes = prototypes.filter(p => p.petId === selectedPetId);
+  const currentPetPrototypes = prototypes.filter(
+    (p) => p.petId === selectedPetId,
+  );
 
   const saveCurrentPrototype = () => {
     if (!prototypeName.trim()) return;
-    
+
     const newPrototype: DesignPrototype = {
       id: Date.now().toString(),
       name: prototypeName.trim(),
       petId: selectedPetId,
       petName: selectedPetName,
-      dateCreated: new Date().toISOString().split('T')[0],
-      dateModified: new Date().toISOString().split('T')[0],
+      dateCreated: new Date().toISOString().split("T")[0],
+      dateModified: new Date().toISOString().split("T")[0],
       isFavorite: false,
       design: currentDesign,
-      estimatedPrice: calculatePrice(currentDesign)
+      estimatedPrice: calculatePrice(currentDesign),
     };
 
-    setPrototypes(prev => [...prev, newPrototype]);
+    setPrototypes((prev) => [...prev, newPrototype]);
     setPrototypeName("");
     setIsSaving(false);
     onSavePrototype(prototypeName.trim());
@@ -132,38 +142,38 @@ export default function PrototypeManager({
 
   const calculatePrice = (design: any) => {
     let basePrice = 39.99;
-    
+
     // Fabric pricing
     const fabricPricing: Record<string, number> = {
-      'cotton-blend': 0,
-      'fleece': 5,
-      'waterproof': 10,
-      'bamboo': 8,
-      'wool': 15
+      "cotton-blend": 0,
+      fleece: 5,
+      waterproof: 10,
+      bamboo: 8,
+      wool: 15,
     };
-    
+
     basePrice += fabricPricing[design.fabric] || 0;
-    
+
     // Style complexity pricing
     const stylePricing: Record<string, number> = {
-      'classic': 0,
-      'modern': 5,
-      'sporty': 8
+      classic: 0,
+      modern: 5,
+      sporty: 8,
     };
-    
+
     basePrice += stylePricing[design.style] || 0;
-    
+
     return Math.round(basePrice * 100) / 100;
   };
 
   const toggleFavorite = (id: string) => {
-    setPrototypes(prev => prev.map(p => 
-      p.id === id ? { ...p, isFavorite: !p.isFavorite } : p
-    ));
+    setPrototypes((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, isFavorite: !p.isFavorite } : p)),
+    );
   };
 
   const deletePrototype = (id: string) => {
-    setPrototypes(prev => prev.filter(p => p.id !== id));
+    setPrototypes((prev) => prev.filter((p) => p.id !== id));
   };
 
   const duplicatePrototype = (prototype: DesignPrototype) => {
@@ -171,19 +181,20 @@ export default function PrototypeManager({
       ...prototype,
       id: Date.now().toString(),
       name: `${prototype.name} (Copy)`,
-      dateCreated: new Date().toISOString().split('T')[0],
-      dateModified: new Date().toISOString().split('T')[0],
-      isFavorite: false
+      dateCreated: new Date().toISOString().split("T")[0],
+      dateModified: new Date().toISOString().split("T")[0],
+      isFavorite: false,
     };
-    
-    setPrototypes(prev => [...prev, newPrototype]);
+
+    setPrototypes((prev) => [...prev, newPrototype]);
   };
 
   const toggleCompareSelection = (id: string) => {
-    setSelectedForComparison(prev => {
+    setSelectedForComparison((prev) => {
       if (prev.includes(id)) {
-        return prev.filter(p => p !== id);
-      } else if (prev.length < 3) { // Limit to 3 comparisons
+        return prev.filter((p) => p !== id);
+      } else if (prev.length < 3) {
+        // Limit to 3 comparisons
         return [...prev, id];
       }
       return prev;
@@ -196,7 +207,10 @@ export default function PrototypeManager({
       <div className="flex flex-wrap gap-2">
         <Dialog open={isSaving} onOpenChange={setIsSaving}>
           <DialogTrigger asChild>
-            <Button size="sm" className="bg-dogzilla-purple hover:bg-dogzilla-purple/90">
+            <Button
+              size="sm"
+              className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
+            >
               <Save className="w-4 h-4 mr-2" />
               Save Prototype
             </Button>
@@ -205,10 +219,11 @@ export default function PrototypeManager({
             <DialogHeader>
               <DialogTitle>Save Design Prototype</DialogTitle>
               <DialogDescription>
-                Save your current design for {selectedPetName} to compare and order later
+                Save your current design for {selectedPetName} to compare and
+                order later
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="space-y-4">
               <div>
                 <Label htmlFor="prototype-name">Prototype Name</Label>
@@ -221,22 +236,40 @@ export default function PrototypeManager({
                   placeholder="e.g., Summer Casual, Winter Coat, Play Time"
                 />
               </div>
-              
+
               <div className="p-4 bg-muted/50 rounded-lg">
                 <h4 className="font-medium mb-2">Current Design Summary</h4>
                 <div className="grid grid-cols-2 gap-2 text-sm">
-                  <div>Style: <span className="font-medium capitalize">{currentDesign.style}</span></div>
-                  <div>Fabric: <span className="font-medium">{currentDesign.fabric.replace('-', ' ')}</span></div>
-                  <div>Size: <span className="font-medium">{currentDesign.size}</span></div>
-                  <div>Est. Price: <span className="font-medium">${calculatePrice(currentDesign)}</span></div>
+                  <div>
+                    Style:{" "}
+                    <span className="font-medium capitalize">
+                      {currentDesign.style}
+                    </span>
+                  </div>
+                  <div>
+                    Fabric:{" "}
+                    <span className="font-medium">
+                      {currentDesign.fabric.replace("-", " ")}
+                    </span>
+                  </div>
+                  <div>
+                    Size:{" "}
+                    <span className="font-medium">{currentDesign.size}</span>
+                  </div>
+                  <div>
+                    Est. Price:{" "}
+                    <span className="font-medium">
+                      ${calculatePrice(currentDesign)}
+                    </span>
+                  </div>
                 </div>
               </div>
-              
+
               <div className="flex justify-end space-x-3">
                 <Button variant="outline" onClick={() => setIsSaving(false)}>
                   Cancel
                 </Button>
-                <Button 
+                <Button
                   onClick={saveCurrentPrototype}
                   disabled={!prototypeName.trim()}
                   className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
@@ -248,7 +281,10 @@ export default function PrototypeManager({
           </DialogContent>
         </Dialog>
 
-        <Dialog open={isShowingPrototypes} onOpenChange={setIsShowingPrototypes}>
+        <Dialog
+          open={isShowingPrototypes}
+          onOpenChange={setIsShowingPrototypes}
+        >
           <DialogTrigger asChild>
             <Button variant="outline" size="sm">
               <FolderOpen className="w-4 h-4 mr-2" />
@@ -262,7 +298,7 @@ export default function PrototypeManager({
                 Load a saved design prototype or compare multiple options
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="space-y-4">
               {/* Compare Mode Toggle */}
               <div className="flex items-center justify-between">
@@ -274,9 +310,10 @@ export default function PrototypeManager({
                     setSelectedForComparison([]);
                   }}
                 >
-                  Compare Mode {compareMode && `(${selectedForComparison.length}/3)`}
+                  Compare Mode{" "}
+                  {compareMode && `(${selectedForComparison.length}/3)`}
                 </Button>
-                
+
                 {compareMode && selectedForComparison.length >= 2 && (
                   <Badge variant="secondary">
                     Ready to compare {selectedForComparison.length} prototypes
@@ -289,32 +326,42 @@ export default function PrototypeManager({
                 <div className="text-center py-8 text-muted-foreground">
                   <Palette className="w-12 h-12 mx-auto mb-4 opacity-50" />
                   <p>No saved prototypes for {selectedPetName} yet.</p>
-                  <p className="text-sm">Save your first design to get started!</p>
+                  <p className="text-sm">
+                    Save your first design to get started!
+                  </p>
                 </div>
               ) : (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {currentPetPrototypes.map(prototype => (
-                    <Card 
-                      key={prototype.id} 
+                  {currentPetPrototypes.map((prototype) => (
+                    <Card
+                      key={prototype.id}
                       className={`group cursor-pointer transition-all ${
-                        compareMode 
+                        compareMode
                           ? selectedForComparison.includes(prototype.id)
-                            ? 'ring-2 ring-dogzilla-purple'
-                            : 'hover:ring-2 hover:ring-dogzilla-purple/50'
-                          : 'hover:shadow-lg'
+                            ? "ring-2 ring-dogzilla-purple"
+                            : "hover:ring-2 hover:ring-dogzilla-purple/50"
+                          : "hover:shadow-lg"
                       }`}
-                      onClick={() => compareMode ? toggleCompareSelection(prototype.id) : onLoadPrototype(prototype)}
+                      onClick={() =>
+                        compareMode
+                          ? toggleCompareSelection(prototype.id)
+                          : onLoadPrototype(prototype)
+                      }
                     >
                       <CardHeader className="pb-3">
                         <div className="flex items-start justify-between">
                           <div>
-                            <CardTitle className="text-lg">{prototype.name}</CardTitle>
+                            <CardTitle className="text-lg">
+                              {prototype.name}
+                            </CardTitle>
                             <CardDescription className="flex items-center">
                               <Calendar className="w-3 h-3 mr-1" />
-                              {new Date(prototype.dateCreated).toLocaleDateString()}
+                              {new Date(
+                                prototype.dateCreated,
+                              ).toLocaleDateString()}
                             </CardDescription>
                           </div>
-                          
+
                           <div className="flex space-x-1">
                             <Button
                               variant="ghost"
@@ -334,45 +381,56 @@ export default function PrototypeManager({
                           </div>
                         </div>
                       </CardHeader>
-                      
+
                       <CardContent className="space-y-3">
                         {/* Design Preview */}
-                        <div className="h-16 rounded-lg flex items-center justify-center relative overflow-hidden"
-                             style={{ backgroundColor: prototype.design.primaryColor + '20' }}>
-                          <div 
+                        <div
+                          className="h-16 rounded-lg flex items-center justify-center relative overflow-hidden"
+                          style={{
+                            backgroundColor:
+                              prototype.design.primaryColor + "20",
+                          }}
+                        >
+                          <div
                             className="w-12 h-12 rounded border-2"
-                            style={{ 
+                            style={{
                               backgroundColor: prototype.design.primaryColor,
-                              borderColor: prototype.design.secondaryColor
+                              borderColor: prototype.design.secondaryColor,
                             }}
                           />
-                          <Badge 
-                            variant="secondary" 
+                          <Badge
+                            variant="secondary"
                             className="absolute top-1 right-1 text-xs"
                           >
                             {prototype.design.style}
                           </Badge>
                         </div>
-                        
+
                         {/* Design Details */}
                         <div className="grid grid-cols-2 gap-2 text-xs">
                           <div>
-                            <span className="text-muted-foreground">Fabric:</span>
+                            <span className="text-muted-foreground">
+                              Fabric:
+                            </span>
                             <br />
-                            <span className="font-medium capitalize">{prototype.design.fabric.replace('-', ' ')}</span>
+                            <span className="font-medium capitalize">
+                              {prototype.design.fabric.replace("-", " ")}
+                            </span>
                           </div>
                           <div>
                             <span className="text-muted-foreground">Size:</span>
                             <br />
-                            <span className="font-medium">{prototype.design.size}</span>
+                            <span className="font-medium">
+                              {prototype.design.size}
+                            </span>
                           </div>
                         </div>
-                        
+
                         <div className="flex items-center justify-between pt-2 border-t">
                           <span className="text-lg font-bold text-dogzilla-purple">
                             ${prototype.estimatedPrice}
                           </span>
-                          
+
                           {!compareMode && (
                             <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
                               <Button
@@ -409,10 +467,10 @@ export default function PrototypeManager({
               {/* Compare Actions */}
               {compareMode && selectedForComparison.length >= 2 && (
                 <div className="flex justify-center pt-4 border-t">
-                  <Button 
+                  <Button
                     onClick={() => {
                       // Handle comparison view
-                      console.log('Compare prototypes:', selectedForComparison);
+                      console.log("Compare prototypes:", selectedForComparison);
                       setCompareMode(false);
                       setSelectedForComparison([]);
                       setIsShowingPrototypes(false);
@@ -429,13 +487,13 @@ export default function PrototypeManager({
 
         {currentPetPrototypes.length > 0 && (
           <Badge variant="outline" className="text-xs">
-            {currentPetPrototypes.filter(p => p.isFavorite).length} favorites
+            {currentPetPrototypes.filter((p) => p.isFavorite).length} favorites
           </Badge>
         )}
       </div>
 
       {/* Quick Favorites */}
-      {currentPetPrototypes.filter(p => p.isFavorite).length > 0 && (
+      {currentPetPrototypes.filter((p) => p.isFavorite).length > 0 && (
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm flex items-center">
@@ -446,9 +504,9 @@ export default function PrototypeManager({
           <CardContent>
             <div className="flex gap-2 flex-wrap">
               {currentPetPrototypes
-                .filter(p => p.isFavorite)
+                .filter((p) => p.isFavorite)
                 .slice(0, 3)
-                .map(prototype => (
+                .map((prototype) => (
                   <Button
                     key={prototype.id}
                     variant="outline"

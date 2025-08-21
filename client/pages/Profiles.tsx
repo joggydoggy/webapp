@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { 
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -13,15 +19,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import DogPhotoMeasurement from "@/components/DogPhotoMeasurement";
-import { 
-  Heart, 
-  Plus, 
-  Edit, 
-  Trash2, 
+import {
+  Heart,
+  Plus,
+  Edit,
+  Trash2,
   Camera,
   Ruler,
   Calendar,
-  ArrowRight
+  ArrowRight,
 } from "lucide-react";
 
 interface PetProfile {
@@ -53,8 +59,8 @@ export default function Profiles() {
         length: 55,
         weight: 30,
         height: 60,
-        neckLength: 20
-      }
+        neckLength: 20,
+      },
     },
     {
       id: "2",
@@ -67,14 +73,16 @@ export default function Profiles() {
         length: 40,
         weight: 12,
         height: 35,
-        neckLength: 15
-      }
-    }
+        neckLength: 15,
+      },
+    },
   ]);
-  
+
   const [isAddingProfile, setIsAddingProfile] = useState(false);
   const [editingProfile, setEditingProfile] = useState<PetProfile | null>(null);
-  const [newProfile, setNewProfile] = useState<Omit<PetProfile, 'id' | 'dateAdded'>>({
+  const [newProfile, setNewProfile] = useState<
+    Omit<PetProfile, "id" | "dateAdded">
+  >({
     name: "",
     breed: "",
     measurements: {
@@ -83,17 +91,17 @@ export default function Profiles() {
       length: 50,
       weight: 20,
       height: 45,
-      neckLength: 15
-    }
+      neckLength: 15,
+    },
   });
 
   const addProfile = () => {
     const profile: PetProfile = {
       ...newProfile,
       id: Date.now().toString(),
-      dateAdded: new Date().toISOString().split('T')[0]
+      dateAdded: new Date().toISOString().split("T")[0],
     };
-    setProfiles(prev => [...prev, profile]);
+    setProfiles((prev) => [...prev, profile]);
     setNewProfile({
       name: "",
       breed: "",
@@ -103,26 +111,30 @@ export default function Profiles() {
         length: 50,
         weight: 20,
         height: 45,
-        neckLength: 15
-      }
+        neckLength: 15,
+      },
     });
     setIsAddingProfile(false);
   };
 
   const updateProfile = (updatedProfile: PetProfile) => {
-    setProfiles(prev => prev.map(p => p.id === updatedProfile.id ? updatedProfile : p));
+    setProfiles((prev) =>
+      prev.map((p) => (p.id === updatedProfile.id ? updatedProfile : p)),
+    );
     setEditingProfile(null);
   };
 
   const deleteProfile = (id: string) => {
-    setProfiles(prev => prev.filter(p => p.id !== id));
+    setProfiles((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const handleMeasurementsChange = (measurements: typeof newProfile.measurements) => {
+  const handleMeasurementsChange = (
+    measurements: typeof newProfile.measurements,
+  ) => {
     if (editingProfile) {
-      setEditingProfile(prev => prev ? { ...prev, measurements } : null);
+      setEditingProfile((prev) => (prev ? { ...prev, measurements } : null));
     } else {
-      setNewProfile(prev => ({ ...prev, measurements }));
+      setNewProfile((prev) => ({ ...prev, measurements }));
     }
   };
 
@@ -132,10 +144,14 @@ export default function Profiles() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">Pet Profiles</h1>
-            <p className="text-muted-foreground">Manage your furry friends and their measurements</p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">
+              Pet Profiles
+            </h1>
+            <p className="text-muted-foreground">
+              Manage your furry friends and their measurements
+            </p>
           </div>
-          
+
           <Dialog open={isAddingProfile} onOpenChange={setIsAddingProfile}>
             <DialogTrigger asChild>
               <Button className="bg-dogzilla-purple hover:bg-dogzilla-purple/90 mt-4 md:mt-0">
@@ -147,10 +163,11 @@ export default function Profiles() {
               <DialogHeader>
                 <DialogTitle>Add New Pet Profile</DialogTitle>
                 <DialogDescription>
-                  Create a profile for your dog with measurements for future clothing orders
+                  Create a profile for your dog with measurements for future
+                  clothing orders
                 </DialogDescription>
               </DialogHeader>
-              
+
               <div className="space-y-6">
                 {/* Basic Info */}
                 <div className="grid md:grid-cols-2 gap-4">
@@ -160,7 +177,12 @@ export default function Profiles() {
                       id="new-name"
                       type="text"
                       value={newProfile.name}
-                      onChange={(e) => setNewProfile(prev => ({ ...prev, name: e.target.value }))}
+                      onChange={(e) =>
+                        setNewProfile((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
                       className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                       placeholder="Enter your pet's name"
                     />
@@ -171,7 +193,12 @@ export default function Profiles() {
                       id="new-breed"
                       type="text"
                       value={newProfile.breed}
-                      onChange={(e) => setNewProfile(prev => ({ ...prev, breed: e.target.value }))}
+                      onChange={(e) =>
+                        setNewProfile((prev) => ({
+                          ...prev,
+                          breed: e.target.value,
+                        }))
+                      }
                       className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                       placeholder="e.g., Golden Retriever, Mixed Breed"
                     />
@@ -179,7 +206,9 @@ export default function Profiles() {
                 </div>
 
                 {/* Photo Measurement */}
-                <DogPhotoMeasurement onMeasurementsChange={handleMeasurementsChange} />
+                <DogPhotoMeasurement
+                  onMeasurementsChange={handleMeasurementsChange}
+                />
 
                 {/* Manual Measurements Fallback */}
                 <Card>
@@ -199,10 +228,15 @@ export default function Profiles() {
                         <input
                           type="number"
                           value={newProfile.measurements.collar}
-                          onChange={(e) => setNewProfile(prev => ({
-                            ...prev,
-                            measurements: { ...prev.measurements, collar: Number(e.target.value) }
-                          }))}
+                          onChange={(e) =>
+                            setNewProfile((prev) => ({
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                collar: Number(e.target.value),
+                              },
+                            }))
+                          }
                           className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                         />
                       </div>
@@ -211,10 +245,15 @@ export default function Profiles() {
                         <input
                           type="number"
                           value={newProfile.measurements.chest}
-                          onChange={(e) => setNewProfile(prev => ({
-                            ...prev,
-                            measurements: { ...prev.measurements, chest: Number(e.target.value) }
-                          }))}
+                          onChange={(e) =>
+                            setNewProfile((prev) => ({
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                chest: Number(e.target.value),
+                              },
+                            }))
+                          }
                           className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                         />
                       </div>
@@ -223,10 +262,15 @@ export default function Profiles() {
                         <input
                           type="number"
                           value={newProfile.measurements.length}
-                          onChange={(e) => setNewProfile(prev => ({
-                            ...prev,
-                            measurements: { ...prev.measurements, length: Number(e.target.value) }
-                          }))}
+                          onChange={(e) =>
+                            setNewProfile((prev) => ({
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                length: Number(e.target.value),
+                              },
+                            }))
+                          }
                           className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                         />
                       </div>
@@ -235,10 +279,15 @@ export default function Profiles() {
                         <input
                           type="number"
                           value={newProfile.measurements.height}
-                          onChange={(e) => setNewProfile(prev => ({
-                            ...prev,
-                            measurements: { ...prev.measurements, height: Number(e.target.value) }
-                          }))}
+                          onChange={(e) =>
+                            setNewProfile((prev) => ({
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                height: Number(e.target.value),
+                              },
+                            }))
+                          }
                           className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                         />
                       </div>
@@ -247,10 +296,15 @@ export default function Profiles() {
                         <input
                           type="number"
                           value={newProfile.measurements.neckLength}
-                          onChange={(e) => setNewProfile(prev => ({
-                            ...prev,
-                            measurements: { ...prev.measurements, neckLength: Number(e.target.value) }
-                          }))}
+                          onChange={(e) =>
+                            setNewProfile((prev) => ({
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                neckLength: Number(e.target.value),
+                              },
+                            }))
+                          }
                           className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                         />
                       </div>
@@ -259,10 +313,15 @@ export default function Profiles() {
                         <input
                           type="number"
                           value={newProfile.measurements.weight}
-                          onChange={(e) => setNewProfile(prev => ({
-                            ...prev,
-                            measurements: { ...prev.measurements, weight: Number(e.target.value) }
-                          }))}
+                          onChange={(e) =>
+                            setNewProfile((prev) => ({
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                weight: Number(e.target.value),
+                              },
+                            }))
+                          }
                           className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                         />
                       </div>
@@ -271,10 +330,13 @@ export default function Profiles() {
                 </Card>
 
                 <div className="flex justify-end space-x-3">
-                  <Button variant="outline" onClick={() => setIsAddingProfile(false)}>
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsAddingProfile(false)}
+                  >
                     Cancel
                   </Button>
-                  <Button 
+                  <Button
                     onClick={addProfile}
                     disabled={!newProfile.name.trim()}
                     className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
@@ -294,9 +356,10 @@ export default function Profiles() {
               <Heart className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
               <h3 className="text-xl font-semibold mb-2">No pets added yet</h3>
               <p className="text-muted-foreground mb-6">
-                Add your first pet profile to get started with custom clothing designs
+                Add your first pet profile to get started with custom clothing
+                designs
               </p>
-              <Button 
+              <Button
                 onClick={() => setIsAddingProfile(true)}
                 className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
               >
@@ -307,8 +370,11 @@ export default function Profiles() {
           </Card>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {profiles.map(profile => (
-              <Card key={profile.id} className="group hover:shadow-lg transition-all duration-300">
+            {profiles.map((profile) => (
+              <Card
+                key={profile.id}
+                className="group hover:shadow-lg transition-all duration-300"
+              >
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-3">
@@ -316,11 +382,13 @@ export default function Profiles() {
                         <Heart className="w-6 h-6 text-dogzilla-purple" />
                       </div>
                       <div>
-                        <CardTitle className="text-lg">{profile.name}</CardTitle>
+                        <CardTitle className="text-lg">
+                          {profile.name}
+                        </CardTitle>
                         <CardDescription>{profile.breed}</CardDescription>
                       </div>
                     </div>
-                    
+
                     <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
                         variant="ghost"
@@ -341,35 +409,43 @@ export default function Profiles() {
                     </div>
                   </div>
                 </CardHeader>
-                
+
                 <CardContent className="space-y-4">
                   <div className="flex items-center text-sm text-muted-foreground">
                     <Calendar className="w-4 h-4 mr-2" />
                     Added {new Date(profile.dateAdded).toLocaleDateString()}
                   </div>
-                  
+
                   {/* Quick Measurements Display */}
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Collar:</span>
-                      <span className="font-medium">{profile.measurements.collar}cm</span>
+                      <span className="font-medium">
+                        {profile.measurements.collar}cm
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Chest:</span>
-                      <span className="font-medium">{profile.measurements.chest}cm</span>
+                      <span className="font-medium">
+                        {profile.measurements.chest}cm
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Length:</span>
-                      <span className="font-medium">{profile.measurements.length}cm</span>
+                      <span className="font-medium">
+                        {profile.measurements.length}cm
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Weight:</span>
-                      <span className="font-medium">{profile.measurements.weight}kg</span>
+                      <span className="font-medium">
+                        {profile.measurements.weight}kg
+                      </span>
                     </div>
                   </div>
 
-                  <Button 
-                    asChild 
+                  <Button
+                    asChild
                     className="w-full bg-dogzilla-orange hover:bg-dogzilla-orange/90"
                   >
                     <Link to={`/customize?pet=${profile.id}`}>
@@ -394,7 +470,7 @@ export default function Profiles() {
                 Update your pet's information and measurements
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -402,7 +478,11 @@ export default function Profiles() {
                   <input
                     type="text"
                     value={editingProfile.name}
-                    onChange={(e) => setEditingProfile(prev => prev ? { ...prev, name: e.target.value } : null)}
+                    onChange={(e) =>
+                      setEditingProfile((prev) =>
+                        prev ? { ...prev, name: e.target.value } : null,
+                      )
+                    }
                     className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                   />
                 </div>
@@ -411,7 +491,11 @@ export default function Profiles() {
                   <input
                     type="text"
                     value={editingProfile.breed}
-                    onChange={(e) => setEditingProfile(prev => prev ? { ...prev, breed: e.target.value } : null)}
+                    onChange={(e) =>
+                      setEditingProfile((prev) =>
+                        prev ? { ...prev, breed: e.target.value } : null,
+                      )
+                    }
                     className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                   />
                 </div>
@@ -423,10 +507,19 @@ export default function Profiles() {
                   <input
                     type="number"
                     value={editingProfile.measurements.collar}
-                    onChange={(e) => setEditingProfile(prev => prev ? {
-                      ...prev,
-                      measurements: { ...prev.measurements, collar: Number(e.target.value) }
-                    } : null)}
+                    onChange={(e) =>
+                      setEditingProfile((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                collar: Number(e.target.value),
+                              },
+                            }
+                          : null,
+                      )
+                    }
                     className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                   />
                 </div>
@@ -435,10 +528,19 @@ export default function Profiles() {
                   <input
                     type="number"
                     value={editingProfile.measurements.chest}
-                    onChange={(e) => setEditingProfile(prev => prev ? {
-                      ...prev,
-                      measurements: { ...prev.measurements, chest: Number(e.target.value) }
-                    } : null)}
+                    onChange={(e) =>
+                      setEditingProfile((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                chest: Number(e.target.value),
+                              },
+                            }
+                          : null,
+                      )
+                    }
                     className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                   />
                 </div>
@@ -447,10 +549,19 @@ export default function Profiles() {
                   <input
                     type="number"
                     value={editingProfile.measurements.length}
-                    onChange={(e) => setEditingProfile(prev => prev ? {
-                      ...prev,
-                      measurements: { ...prev.measurements, length: Number(e.target.value) }
-                    } : null)}
+                    onChange={(e) =>
+                      setEditingProfile((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                length: Number(e.target.value),
+                              },
+                            }
+                          : null,
+                      )
+                    }
                     className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                   />
                 </div>
@@ -459,10 +570,19 @@ export default function Profiles() {
                   <input
                     type="number"
                     value={editingProfile.measurements.height}
-                    onChange={(e) => setEditingProfile(prev => prev ? {
-                      ...prev,
-                      measurements: { ...prev.measurements, height: Number(e.target.value) }
-                    } : null)}
+                    onChange={(e) =>
+                      setEditingProfile((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                height: Number(e.target.value),
+                              },
+                            }
+                          : null,
+                      )
+                    }
                     className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                   />
                 </div>
@@ -471,10 +591,19 @@ export default function Profiles() {
                   <input
                     type="number"
                     value={editingProfile.measurements.neckLength}
-                    onChange={(e) => setEditingProfile(prev => prev ? {
-                      ...prev,
-                      measurements: { ...prev.measurements, neckLength: Number(e.target.value) }
-                    } : null)}
+                    onChange={(e) =>
+                      setEditingProfile((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                neckLength: Number(e.target.value),
+                              },
+                            }
+                          : null,
+                      )
+                    }
                     className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                   />
                 </div>
@@ -483,20 +612,32 @@ export default function Profiles() {
                   <input
                     type="number"
                     value={editingProfile.measurements.weight}
-                    onChange={(e) => setEditingProfile(prev => prev ? {
-                      ...prev,
-                      measurements: { ...prev.measurements, weight: Number(e.target.value) }
-                    } : null)}
+                    onChange={(e) =>
+                      setEditingProfile((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              measurements: {
+                                ...prev.measurements,
+                                weight: Number(e.target.value),
+                              },
+                            }
+                          : null,
+                      )
+                    }
                     className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
                   />
                 </div>
               </div>
 
               <div className="flex justify-end space-x-3">
-                <Button variant="outline" onClick={() => setEditingProfile(null)}>
+                <Button
+                  variant="outline"
+                  onClick={() => setEditingProfile(null)}
+                >
                   Cancel
                 </Button>
-                <Button 
+                <Button
                   onClick={() => updateProfile(editingProfile)}
                   className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
                 >

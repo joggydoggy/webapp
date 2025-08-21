@@ -74,24 +74,46 @@ export default function DesignStudio() {
       id: "1",
       name: "Buddy",
       breed: "Golden Retriever",
-      measurements: { collar: 45, chest: 75, length: 55, weight: 30, height: 60, neckLength: 20 }
+      measurements: {
+        collar: 45,
+        chest: 75,
+        length: 55,
+        weight: 30,
+        height: 60,
+        neckLength: 20,
+      },
     },
     {
       id: "2",
       name: "Luna",
       breed: "French Bulldog",
-      measurements: { collar: 35, chest: 55, length: 40, weight: 12, height: 35, neckLength: 15 }
+      measurements: {
+        collar: 35,
+        chest: 55,
+        length: 40,
+        weight: 12,
+        height: 35,
+        neckLength: 15,
+      },
     },
     {
       id: "3",
       name: "Max",
       breed: "German Shepherd",
-      measurements: { collar: 50, chest: 80, length: 65, weight: 35, height: 65, neckLength: 22 }
-    }
+      measurements: {
+        collar: 50,
+        chest: 80,
+        length: 65,
+        weight: 35,
+        height: 65,
+        neckLength: 22,
+      },
+    },
   ]);
 
   const [selectedPetId, setSelectedPetId] = useState<string>("1");
-  const selectedPet = availablePets.find(p => p.id === selectedPetId) || availablePets[0];
+  const selectedPet =
+    availablePets.find((p) => p.id === selectedPetId) || availablePets[0];
 
   // User's dog data - starts with selected pet or manual entry
   const [dogData, setDogData] = useState<DogData>({
@@ -115,7 +137,7 @@ export default function DesignStudio() {
 
   // Handle pet selection change
   const handlePetSelection = (petId: string) => {
-    const pet = availablePets.find(p => p.id === petId);
+    const pet = availablePets.find((p) => p.id === petId);
     if (pet) {
       setSelectedPetId(petId);
       setDogData({
@@ -123,7 +145,7 @@ export default function DesignStudio() {
         breed: pet.breed,
         measurements: pet.measurements,
       });
-      setDesign(prev => ({
+      setDesign((prev) => ({
         ...prev,
         customFit: {
           collar: pet.measurements.collar,
@@ -138,7 +160,7 @@ export default function DesignStudio() {
   const handleLoadPrototype = (prototype: any) => {
     setDesign(prototype.design);
     // Update dog data if needed
-    const pet = availablePets.find(p => p.id === prototype.petId);
+    const pet = availablePets.find((p) => p.id === prototype.petId);
     if (pet) {
       setDogData({
         name: pet.name,
@@ -324,7 +346,7 @@ export default function DesignStudio() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {availablePets.map(pet => (
+                  {availablePets.map((pet) => (
                     <SelectItem key={pet.id} value={pet.id}>
                       <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-dogzilla-purple/10 rounded-full flex items-center justify-center">
@@ -332,7 +354,9 @@ export default function DesignStudio() {
                         </div>
                         <div>
                           <div className="font-medium">{pet.name}</div>
-                          <div className="text-sm text-muted-foreground">{pet.breed}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {pet.breed}
+                          </div>
                         </div>
                       </div>
                     </SelectItem>
@@ -341,19 +365,27 @@ export default function DesignStudio() {
               </Select>
 
               <div className="mt-4 p-3 bg-muted/50 rounded-lg">
-                <h4 className="font-medium text-sm mb-2">Current Pet: {dogData.name}</h4>
+                <h4 className="font-medium text-sm mb-2">
+                  Current Pet: {dogData.name}
+                </h4>
                 <div className="grid grid-cols-3 gap-2 text-xs">
                   <div>
                     <span className="text-muted-foreground">Collar:</span>
-                    <div className="font-medium">{dogData.measurements.collar}cm</div>
+                    <div className="font-medium">
+                      {dogData.measurements.collar}cm
+                    </div>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Chest:</span>
-                    <div className="font-medium">{dogData.measurements.chest}cm</div>
+                    <div className="font-medium">
+                      {dogData.measurements.chest}cm
+                    </div>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Length:</span>
-                    <div className="font-medium">{dogData.measurements.length}cm</div>
+                    <div className="font-medium">
+                      {dogData.measurements.length}cm
+                    </div>
                   </div>
                 </div>
               </div>
@@ -582,21 +614,21 @@ export default function DesignStudio() {
             {/* Photo-Based Measurements */}
             <DogPhotoMeasurement
               onMeasurementsChange={(measurements) => {
-                setDogData(prev => ({
+                setDogData((prev) => ({
                   ...prev,
                   measurements: {
                     ...prev.measurements,
-                    ...measurements
-                  }
+                    ...measurements,
+                  },
                 }));
                 // Update design custom fit
-                setDesign(prev => ({
+                setDesign((prev) => ({
                   ...prev,
                   customFit: {
                     collar: measurements.collar,
                     chest: measurements.chest,
-                    length: measurements.length
-                  }
+                    length: measurements.length,
+                  },
                 }));
               }}
             />
@@ -923,20 +955,29 @@ export default function DesignStudio() {
                 <div className="space-y-3 mt-6">
                   <div className="text-center">
                     <span className="text-2xl font-bold text-dogzilla-purple">
-                      ${(() => {
+                      $
+                      {(() => {
                         let basePrice = 39.99;
                         const fabricPricing: Record<string, number> = {
-                          'cotton-blend': 0, 'fleece': 5, 'waterproof': 10, 'bamboo': 8, 'wool': 15
+                          "cotton-blend": 0,
+                          fleece: 5,
+                          waterproof: 10,
+                          bamboo: 8,
+                          wool: 15,
                         };
                         const stylePricing: Record<string, number> = {
-                          'classic': 0, 'modern': 5, 'sporty': 8
+                          classic: 0,
+                          modern: 5,
+                          sporty: 8,
                         };
                         basePrice += fabricPricing[design.fabric] || 0;
                         basePrice += stylePricing[design.style] || 0;
                         return Math.round(basePrice * 100) / 100;
                       })()}
                     </span>
-                    <div className="text-xs text-muted-foreground">Estimated price</div>
+                    <div className="text-xs text-muted-foreground">
+                      Estimated price
+                    </div>
                   </div>
 
                   <Button className="w-full bg-dogzilla-orange hover:bg-dogzilla-orange/90">
