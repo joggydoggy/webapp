@@ -28,6 +28,8 @@ export default function App() {
                 <Route path="/" element={<Index />} />
                 <Route path="/customize" element={<DesignStudio />} />
                 <Route path="/profiles" element={<Profiles />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/tracking/:orderId" element={<OrderTracking />} />
                 <Route
                   path="/orders"
                   element={
