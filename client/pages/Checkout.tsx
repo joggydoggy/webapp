@@ -361,11 +361,78 @@ export default function Checkout() {
                 
                 {!billingAddress.sameAsDelivery && (
                   <div className="space-y-4">
-                    {/* Billing address form - similar to delivery address */}
-                    <p className="text-sm text-muted-foreground">
-                      Please enter your billing address details
-                    </p>
-                    {/* Would add full billing address form here */}
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="billingFirstName">First Name *</Label>
+                        <input
+                          id="billingFirstName"
+                          type="text"
+                          value={billingAddress.firstName}
+                          onChange={(e) => setBillingAddress(prev => ({ ...prev, firstName: e.target.value }))}
+                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="billingLastName">Last Name *</Label>
+                        <input
+                          id="billingLastName"
+                          type="text"
+                          value={billingAddress.lastName}
+                          onChange={(e) => setBillingAddress(prev => ({ ...prev, lastName: e.target.value }))}
+                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="billingAddress1">Address Line 1 *</Label>
+                      <input
+                        id="billingAddress1"
+                        type="text"
+                        value={billingAddress.address1}
+                        onChange={(e) => setBillingAddress(prev => ({ ...prev, address1: e.target.value }))}
+                        className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                        required
+                      />
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-4">
+                      <div>
+                        <Label htmlFor="billingCity">City *</Label>
+                        <input
+                          id="billingCity"
+                          type="text"
+                          value={billingAddress.city}
+                          onChange={(e) => setBillingAddress(prev => ({ ...prev, city: e.target.value }))}
+                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="billingState">State *</Label>
+                        <input
+                          id="billingState"
+                          type="text"
+                          value={billingAddress.state}
+                          onChange={(e) => setBillingAddress(prev => ({ ...prev, state: e.target.value }))}
+                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="billingZipCode">ZIP Code *</Label>
+                        <input
+                          id="billingZipCode"
+                          type="text"
+                          value={billingAddress.zipCode}
+                          onChange={(e) => setBillingAddress(prev => ({ ...prev, zipCode: e.target.value }))}
+                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
+                          required
+                        />
+                      </div>
+                    </div>
                   </div>
                 )}
               </CardContent>
