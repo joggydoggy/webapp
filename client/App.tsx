@@ -11,6 +11,7 @@ import DesignStudio from "./pages/DesignStudio";
 import Profiles from "./pages/Profiles";
 import Checkout from "./pages/Checkout";
 import OrderTracking from "./pages/OrderTracking";
+import Orders from "./pages/Orders";
 
 const queryClient = new QueryClient();
 
