@@ -305,6 +305,84 @@ export default function DesignStudio() {
           </div>
         </div>
 
+        {/* Pet Selection & Prototype Management */}
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {/* Pet Selection */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Users className="w-5 h-5 mr-2 text-dogzilla-purple" />
+                Select Pet Profile
+              </CardTitle>
+              <CardDescription>
+                Choose a saved pet profile or use manual measurements
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Select value={selectedPetId} onValueChange={handlePetSelection}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {availablePets.map(pet => (
+                    <SelectItem key={pet.id} value={pet.id}>
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-dogzilla-purple/10 rounded-full flex items-center justify-center">
+                          <Heart className="w-4 h-4 text-dogzilla-purple" />
+                        </div>
+                        <div>
+                          <div className="font-medium">{pet.name}</div>
+                          <div className="text-sm text-muted-foreground">{pet.breed}</div>
+                        </div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <div className="mt-4 p-3 bg-muted/50 rounded-lg">
+                <h4 className="font-medium text-sm mb-2">Current Pet: {dogData.name}</h4>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div>
+                    <span className="text-muted-foreground">Collar:</span>
+                    <div className="font-medium">{dogData.measurements.collar}cm</div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Chest:</span>
+                    <div className="font-medium">{dogData.measurements.chest}cm</div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">Length:</span>
+                    <div className="font-medium">{dogData.measurements.length}cm</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Prototype Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Star className="w-5 h-5 mr-2 text-dogzilla-orange" />
+                Design Prototypes
+              </CardTitle>
+              <CardDescription>
+                Save and manage multiple design variations
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <PrototypeManager
+                currentDesign={design}
+                selectedPetId={selectedPetId}
+                selectedPetName={dogData.name}
+                onLoadPrototype={handleLoadPrototype}
+                onSavePrototype={handleSavePrototype}
+              />
+            </CardContent>
+          </Card>
+        </div>
+
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Design Controls */}
           <div className="lg:col-span-2 space-y-6">
