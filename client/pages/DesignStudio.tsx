@@ -21,7 +21,6 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import DogPreview from "@/components/DogPreview";
-import DogPhotoMeasurement from "@/components/DogPhotoMeasurement";
 import PrototypeManager from "@/components/PrototypeManager";
 import {
   Palette,
