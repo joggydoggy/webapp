@@ -68,18 +68,36 @@ interface DesignConfig {
 }
 
 export default function DesignStudio() {
-  // User's dog data - entered by user
-  const [dogData, setDogData] = useState<DogData>({
-    name: "My Dog",
-    breed: "Mixed Breed",
-    measurements: {
-      collar: 40,
-      chest: 60,
-      length: 50,
-      weight: 20,
-      height: 45,
-      neckLength: 15,
+  // Available pet profiles (in real app, this would come from API/database)
+  const [availablePets] = useState([
+    {
+      id: "1",
+      name: "Buddy",
+      breed: "Golden Retriever",
+      measurements: { collar: 45, chest: 75, length: 55, weight: 30, height: 60, neckLength: 20 }
     },
+    {
+      id: "2",
+      name: "Luna",
+      breed: "French Bulldog",
+      measurements: { collar: 35, chest: 55, length: 40, weight: 12, height: 35, neckLength: 15 }
+    },
+    {
+      id: "3",
+      name: "Max",
+      breed: "German Shepherd",
+      measurements: { collar: 50, chest: 80, length: 65, weight: 35, height: 65, neckLength: 22 }
+    }
+  ]);
+
+  const [selectedPetId, setSelectedPetId] = useState<string>("1");
+  const selectedPet = availablePets.find(p => p.id === selectedPetId) || availablePets[0];
+
+  // User's dog data - starts with selected pet or manual entry
+  const [dogData, setDogData] = useState<DogData>({
+    name: selectedPet.name,
+    breed: selectedPet.breed,
+    measurements: selectedPet.measurements,
   });
 
   const [design, setDesign] = useState<DesignConfig>({
