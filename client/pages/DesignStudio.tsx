@@ -920,10 +920,35 @@ export default function DesignStudio() {
                   </div>
                 </div>
 
-                <Button className="w-full mt-6 bg-dogzilla-orange hover:bg-dogzilla-orange/90">
-                  <PaintBucket className="w-4 h-4 mr-2" />
-                  Add to Cart - $49.99
-                </Button>
+                <div className="space-y-3 mt-6">
+                  <div className="text-center">
+                    <span className="text-2xl font-bold text-dogzilla-purple">
+                      ${(() => {
+                        let basePrice = 39.99;
+                        const fabricPricing: Record<string, number> = {
+                          'cotton-blend': 0, 'fleece': 5, 'waterproof': 10, 'bamboo': 8, 'wool': 15
+                        };
+                        const stylePricing: Record<string, number> = {
+                          'classic': 0, 'modern': 5, 'sporty': 8
+                        };
+                        basePrice += fabricPricing[design.fabric] || 0;
+                        basePrice += stylePricing[design.style] || 0;
+                        return Math.round(basePrice * 100) / 100;
+                      })()}
+                    </span>
+                    <div className="text-xs text-muted-foreground">Estimated price</div>
+                  </div>
+
+                  <Button className="w-full bg-dogzilla-orange hover:bg-dogzilla-orange/90">
+                    <PaintBucket className="w-4 h-4 mr-2" />
+                    Add to Cart
+                  </Button>
+
+                  <Button variant="outline" className="w-full">
+                    <Save className="w-4 h-4 mr-2" />
+                    Save as Prototype
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </div>
