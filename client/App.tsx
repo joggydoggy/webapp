@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Placeholder from "./pages/Placeholder";
 import DesignStudio from "./pages/DesignStudio";
+import Profiles from "./pages/Profiles";
 
 const queryClient = new QueryClient();
 
