@@ -439,6 +439,28 @@ export default function DesignStudio() {
               </CardContent>
             </Card>
 
+            {/* Photo-Based Measurements */}
+            <DogPhotoMeasurement
+              onMeasurementsChange={(measurements) => {
+                setDogData(prev => ({
+                  ...prev,
+                  measurements: {
+                    ...prev.measurements,
+                    ...measurements
+                  }
+                }));
+                // Update design custom fit
+                setDesign(prev => ({
+                  ...prev,
+                  customFit: {
+                    collar: measurements.collar,
+                    chest: measurements.chest,
+                    length: measurements.length
+                  }
+                }));
+              }}
+            />
+
             {/* Style Selection */}
             <Card>
               <CardHeader>
