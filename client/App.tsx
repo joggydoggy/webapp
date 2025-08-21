@@ -9,6 +9,8 @@ import NotFound from "./pages/NotFound";
 import Placeholder from "./pages/Placeholder";
 import DesignStudio from "./pages/DesignStudio";
 import Profiles from "./pages/Profiles";
+import Checkout from "./pages/Checkout";
+import OrderTracking from "./pages/OrderTracking";
 
 const queryClient = new QueryClient();
 
