@@ -84,6 +84,8 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
       reader.onload = (e) => {
         const result = e.target?.result as string;
         setImage(result);
+        // Save photo to localStorage for use in Design Studio
+        localStorage.setItem('dogPhoto', result);
         // Auto-place some initial points for demonstration
         setTimeout(() => {
           autoDetectPoints();
