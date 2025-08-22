@@ -14,7 +14,8 @@ import {
   ArrowRight,
   CheckCircle,
   Info,
-  Save
+  Save,
+  ArrowLeft
 } from "lucide-react";
 
 interface DogMeasurements {
@@ -72,12 +73,12 @@ export default function Measurements() {
   const saveMeasurements = () => {
     // In real app, save to backend/localStorage
     console.log('Saving measurements:', dogData);
+    localStorage.setItem('tempDogData', JSON.stringify(dogData));
     setIsComplete(true);
-    
-    // Show success message and redirect after delay
-    setTimeout(() => {
-      navigate('/profiles');
-    }, 2000);
+  };
+
+  const continueToDesign = () => {
+    navigate('/customize');
   };
 
   const isFormValid = dogData.name.trim() && dogData.breed.trim() && 
@@ -93,16 +94,26 @@ export default function Measurements() {
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-8 h-8 text-green-600" />
             </div>
-            <h2 className="text-2xl font-bold mb-2">Measurements Saved!</h2>
+            <h2 className="text-2xl font-bold mb-2">Measurements Complete!</h2>
             <p className="text-muted-foreground mb-6">
-              {dogData.name}'s measurements have been saved to your profile.
+              Great! {dogData.name}'s measurements are ready. Now let's design some amazing clothing!
             </p>
-            <Button 
-              className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
-              onClick={() => navigate('/profiles')}
-            >
-              View Pet Profiles
-            </Button>
+            <div className="space-y-3">
+              <Button 
+                className="w-full bg-dogzilla-purple hover:bg-dogzilla-purple/90"
+                onClick={continueToDesign}
+              >
+                <ArrowRight className="w-4 h-4 mr-2" />
+                Start Designing
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={() => navigate('/profiles')}
+              >
+                Save to Profiles
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -113,12 +124,19 @@ export default function Measurements() {
     <div className="min-h-screen bg-gradient-to-br from-background via-dogzilla-purple/5 to-dogzilla-yellow/10">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Dog Measurements</h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Get accurate measurements for your dog to ensure the perfect fit for custom clothing. 
-            Choose between our photo-based measurement tool or manual input.
-          </p>
+        <div className="flex items-center mb-8">
+          <Button variant="ghost" asChild className="mr-4">
+            <Link to="/profiles">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Link>
+          </Button>
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">Take Measurements</h1>
+            <p className="text-muted-foreground">
+              Get accurate measurements for your dog to ensure the perfect fit
+            </p>
+          </div>
         </div>
 
         {/* Progress Steps */}
@@ -135,14 +153,14 @@ export default function Measurements() {
               <div className="w-8 h-8 bg-muted text-muted-foreground rounded-full flex items-center justify-center text-sm font-medium">
                 2
               </div>
-              <span className="ml-2 text-sm text-muted-foreground">Save Profile</span>
+              <span className="ml-2 text-sm text-muted-foreground">Design</span>
             </div>
             <div className="w-8 h-0.5 bg-muted"></div>
             <div className="flex items-center">
               <div className="w-8 h-8 bg-muted text-muted-foreground rounded-full flex items-center justify-center text-sm font-medium">
                 3
               </div>
-              <span className="ml-2 text-sm text-muted-foreground">Design Clothing</span>
+              <span className="ml-2 text-sm text-muted-foreground">Order</span>
             </div>
           </div>
         </div>
@@ -223,7 +241,7 @@ export default function Measurements() {
                         <li>• Take a clear side view photo of your dog standing</li>
                         <li>• Ensure good lighting and the dog is fully visible</li>
                         <li>• Place a ruler or known object for scale reference</li>
-                        <li>• Our AI will detect key points and calculate measurements</li>
+                        <li>• Our tool will help you place measurement points</li>
                       </ul>
                     </div>
                     
@@ -353,7 +371,7 @@ export default function Measurements() {
           <Card>
             <CardHeader>
               <CardTitle>Measurement Summary</CardTitle>
-              <CardDescription>Review your dog's measurements before saving</CardDescription>
+              <CardDescription>Review your dog's measurements</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-6">
@@ -417,20 +435,8 @@ export default function Measurements() {
               disabled={!isFormValid}
               className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
             >
-              <Save className="w-4 h-4 mr-2" />
-              Save Measurements
-            </Button>
-            
-            <Button 
-              onClick={() => {
-                saveMeasurements();
-                setTimeout(() => navigate('/customize'), 2500);
-              }}
-              disabled={!isFormValid}
-              className="bg-dogzilla-orange hover:bg-dogzilla-orange/90"
-            >
-              Save & Start Designing
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="w-4 h-4 mr-2" />
+              Continue to Design
             </Button>
           </div>
         </div>
