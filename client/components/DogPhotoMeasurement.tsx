@@ -143,6 +143,8 @@ export default function DogPhotoMeasurement({ onMeasurementsChange, onSaveMeasur
     setMeasurementPoints(autoPoints);
     calculateMeasurements(autoPoints);
     setMeasurementsReady(true);
+    // Save points for use in Design Studio preview
+    localStorage.setItem('dogMeasurementPoints', JSON.stringify(autoPoints));
   };
 
   const handlePointDrag = (pointId: string, newX: number, newY: number) => {
