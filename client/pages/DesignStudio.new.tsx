@@ -291,7 +291,8 @@ export default function DesignStudio() {
                     <span className="text-muted-foreground">Chest:</span>
                     <div className="font-medium">{dogData.measurements.chest}cm</div>
                   </div>
-                  <div className="text-muted-foreground">Length:</span>
+                  <div>
+                    <span className="text-muted-foreground">Length:</span>
                     <div className="font-medium">{dogData.measurements.length}cm</div>
                   </div>
                 </div>
