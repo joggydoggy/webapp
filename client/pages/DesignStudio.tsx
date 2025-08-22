@@ -9,7 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import DogPreview from "@/components/DogPreview";
 import PrototypeManager from "@/components/PrototypeManager";
 import { 
   Palette, 
@@ -540,7 +539,7 @@ export default function DesignStudio() {
               </CardHeader>
               <CardContent>
                 <div className="mb-6">
-                  <DogPreview dog={dogData} design={design} />
+                  <DogPhotoPreview dog={dogData} design={design} />
                 </div>
                 
                 <div className="space-y-3">
