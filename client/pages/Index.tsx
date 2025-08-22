@@ -52,9 +52,9 @@ export default function Index() {
                 size="lg"
                 className="bg-dogzilla-purple hover:bg-dogzilla-purple/90 text-white px-8 py-6 text-lg"
               >
-                <Link to="/customize" className="flex items-center">
-                  Start Designing
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                <Link to="/measurements" className="flex items-center">
+                  Take Measurements
+                  <Ruler className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
 
@@ -64,7 +64,7 @@ export default function Index() {
                 className="border-dogzilla-orange text-dogzilla-orange hover:bg-dogzilla-orange hover:text-white px-8 py-6 text-lg"
               >
                 <Link to="/profiles" className="flex items-center">
-                  Add Your Dog
+                  My Dogs
                   <Heart className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
