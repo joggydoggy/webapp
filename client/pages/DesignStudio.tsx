@@ -10,6 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import PrototypeManager from "@/components/PrototypeManager";
+import DogPhotoPreview from "@/components/DogPhotoPreview";
 import { 
   Palette, 
   Shirt, 
