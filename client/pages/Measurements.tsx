@@ -4,12 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DogPhotoMeasurement from "@/components/DogPhotoMeasurement";
 import { 
   Ruler, 
   Camera, 
-  Edit3, 
+
   Heart,
   ArrowRight,
   CheckCircle,
@@ -49,7 +48,6 @@ export default function Measurements() {
     }
   });
 
-  const [measurementMethod, setMeasurementMethod] = useState<"manual" | "photo">("photo");
   const [isComplete, setIsComplete] = useState(false);
 
   const updateDogInfo = (field: keyof Omit<DogData, 'measurements'>, value: string) => {
@@ -209,161 +207,34 @@ export default function Measurements() {
             </CardContent>
           </Card>
 
-          {/* Measurement Method Selection */}
+          {/* Photo Measurements */}
           <Card>
             <CardHeader>
-              <CardTitle>Choose Measurement Method</CardTitle>
+              <CardTitle className="flex items-center">
+                <Camera className="w-5 h-5 mr-2 text-dogzilla-purple" />
+                Photo-Based Measurements
+              </CardTitle>
               <CardDescription>
-                Select how you'd like to measure your dog
+                Upload a side view photo and place measurement markers for accurate sizing
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Tabs value={measurementMethod} onValueChange={(value) => setMeasurementMethod(value as "manual" | "photo")}>
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="photo" className="flex items-center">
-                    <Camera className="w-4 h-4 mr-2" />
-                    Photo Measurement
-                  </TabsTrigger>
-                  <TabsTrigger value="manual" className="flex items-center">
-                    <Edit3 className="w-4 h-4 mr-2" />
-                    Manual Input
-                  </TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="photo" className="mt-6">
-                  <div className="space-y-4">
-                    <div className="p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-                      <h4 className="font-medium flex items-center mb-2">
-                        <Info className="w-4 h-4 mr-2" />
-                        Photo Measurement Tips
-                      </h4>
-                      <ul className="text-sm text-muted-foreground space-y-1">
-                        <li>• Take a clear side view photo of your dog standing</li>
-                        <li>• Ensure good lighting and the dog is fully visible</li>
-                        <li>• Place a ruler or known object for scale reference</li>
-                        <li>• Our tool will help you place measurement points</li>
-                      </ul>
-                    </div>
-                    
-                    <DogPhotoMeasurement onMeasurementsChange={handlePhotoMeasurementsChange} />
-                  </div>
-                </TabsContent>
-                
-                <TabsContent value="manual" className="mt-6">
-                  <div className="space-y-6">
-                    <div className="p-4 bg-dogzilla-yellow/10 border border-dogzilla-yellow/20 rounded-lg">
-                      <h4 className="font-medium text-sm mb-2">📏 Measurement Guidelines</h4>
-                      <ul className="text-xs text-muted-foreground space-y-1">
-                        <li>• Use a soft measuring tape for accurate results</li>
-                        <li>• Measure when your dog is standing calmly</li>
-                        <li>• Add 2-5cm for comfort depending on desired fit</li>
-                        <li>• For chest, measure at the widest part behind front legs</li>
-                      </ul>
-                    </div>
+              <div className="space-y-4">
+                <div className="p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+                  <h4 className="font-medium flex items-center mb-2">
+                    <Info className="w-4 h-4 mr-2" />
+                    Photo Measurement Tips
+                  </h4>
+                  <ul className="text-sm text-muted-foreground space-y-1">
+                    <li>• Take a clear side view photo of your dog standing</li>
+                    <li>• Ensure good lighting and the dog is fully visible</li>
+                    <li>• Place a ruler or known object for scale reference</li>
+                    <li>• Our tool will help you place measurement points</li>
+                  </ul>
+                </div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div>
-                        <Label htmlFor="collar" className="text-sm font-medium">
-                          Collar Circumference (cm) *
-                        </Label>
-                        <input
-                          id="collar"
-                          type="number"
-                          min="15"
-                          max="80"
-                          value={dogData.measurements.collar}
-                          onChange={(e) => updateMeasurement("collar", Number(e.target.value))}
-                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
-                          required
-                        />
-                        <p className="text-xs text-muted-foreground mt-1">Around the neck</p>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="chest" className="text-sm font-medium">
-                          Chest Circumference (cm) *
-                        </Label>
-                        <input
-                          id="chest"
-                          type="number"
-                          min="25"
-                          max="120"
-                          value={dogData.measurements.chest}
-                          onChange={(e) => updateMeasurement("chest", Number(e.target.value))}
-                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
-                          required
-                        />
-                        <p className="text-xs text-muted-foreground mt-1">Around the widest part</p>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="length" className="text-sm font-medium">
-                          Back Length (cm) *
-                        </Label>
-                        <input
-                          id="length"
-                          type="number"
-                          min="15"
-                          max="100"
-                          value={dogData.measurements.length}
-                          onChange={(e) => updateMeasurement("length", Number(e.target.value))}
-                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
-                          required
-                        />
-                        <p className="text-xs text-muted-foreground mt-1">Base of neck to tail</p>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="height" className="text-sm font-medium">
-                          Height at Shoulder (cm)
-                        </Label>
-                        <input
-                          id="height"
-                          type="number"
-                          min="15"
-                          max="100"
-                          value={dogData.measurements.height}
-                          onChange={(e) => updateMeasurement("height", Number(e.target.value))}
-                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
-                        />
-                        <p className="text-xs text-muted-foreground mt-1">Ground to shoulder</p>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="neck-length" className="text-sm font-medium">
-                          Neck Length (cm)
-                        </Label>
-                        <input
-                          id="neck-length"
-                          type="number"
-                          min="8"
-                          max="40"
-                          value={dogData.measurements.neckLength}
-                          onChange={(e) => updateMeasurement("neckLength", Number(e.target.value))}
-                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
-                        />
-                        <p className="text-xs text-muted-foreground mt-1">Head to shoulder</p>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="weight" className="text-sm font-medium">
-                          Weight (kg)
-                        </Label>
-                        <input
-                          id="weight"
-                          type="number"
-                          min="1"
-                          max="80"
-                          value={dogData.measurements.weight}
-                          onChange={(e) => updateMeasurement("weight", Number(e.target.value))}
-                          className="mt-1 w-full px-3 py-2 border border-input rounded-md bg-background text-foreground"
-                        />
-                        <p className="text-xs text-muted-foreground mt-1">Current weight</p>
-                      </div>
-                    </div>
-                  </div>
-                </TabsContent>
-              </Tabs>
+                <DogPhotoMeasurement onMeasurementsChange={handlePhotoMeasurementsChange} />
+              </div>
             </CardContent>
           </Card>
 
