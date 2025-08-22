@@ -40,9 +40,10 @@ interface DogPhotoMeasurementProps {
     neckLength: number;
     weight: number;
   }) => void;
+  onSaveMeasurements?: () => void;
 }
 
-export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMeasurementProps) {
+export default function DogPhotoMeasurement({ onMeasurementsChange, onSaveMeasurements }: DogPhotoMeasurementProps) {
   const [image, setImage] = useState<string | null>(null);
   const [imageScale, setImageScale] = useState(1);
   const [measurementPoints, setMeasurementPoints] = useState<MeasurementPoint[]>([]);
@@ -50,6 +51,7 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
   const [activePoint, setActivePoint] = useState<string | null>(null);
   const [referenceMeasurement, setReferenceMeasurement] = useState<number>(10); // cm
   const [referencePixels, setReferencePixels] = useState<number>(100); // pixels
+  const [measurementsReady, setMeasurementsReady] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -140,6 +142,7 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
 
     setMeasurementPoints(autoPoints);
     calculateMeasurements(autoPoints);
+    setMeasurementsReady(true);
   };
 
   const handlePointDrag = (pointId: string, newX: number, newY: number) => {
@@ -156,6 +159,7 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
 
     setMeasurementPoints(updatedPoints);
     calculateMeasurements(updatedPoints);
+    setMeasurementsReady(updatedPoints.length === essentialPoints.length);
   };
 
   const calculateMeasurements = (points: MeasurementPoint[]) => {
@@ -205,6 +209,13 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
   const resetPoints = () => {
     setMeasurementPoints([]);
     setMeasurementLines([]);
+    setMeasurementsReady(false);
+  };
+
+  const handleSaveMeasurements = () => {
+    if (onSaveMeasurements) {
+      onSaveMeasurements();
+    }
   };
 
   return (
@@ -404,6 +415,20 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
                 <li>• Chest depth helps calculate full chest circumference</li>
               </ul>
             </div>
+
+            {/* Save Button */}
+            {measurementsReady && (
+              <div className="flex justify-center pt-4">
+                <Button
+                  onClick={handleSaveMeasurements}
+                  className="bg-dogzilla-purple hover:bg-dogzilla-purple/90 px-8"
+                  size="lg"
+                >
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Measurements
+                </Button>
+              </div>
+            )}
 
             <input
               ref={fileInputRef}
