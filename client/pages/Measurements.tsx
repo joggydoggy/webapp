@@ -237,7 +237,10 @@ export default function Measurements() {
                   </ul>
                 </div>
 
-                <DogPhotoMeasurement onMeasurementsChange={handlePhotoMeasurementsChange} />
+                <DogPhotoMeasurement
+                  onMeasurementsChange={handlePhotoMeasurementsChange}
+                  onSaveMeasurements={saveMeasurements}
+                />
               </div>
             </CardContent>
           </Card>
