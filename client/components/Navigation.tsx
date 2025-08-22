@@ -19,6 +19,7 @@ export default function Navigation() {
 
   const navigation = [
     { name: "Home", href: "/", icon: null },
+    { name: "Measurements", href: "/measurements", icon: Ruler },
     { name: "Design Studio", href: "/customize", icon: Palette },
     { name: "My Dogs", href: "/profiles", icon: Heart },
     { name: "Orders", href: "/orders", icon: ShoppingBag },
