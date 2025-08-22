@@ -12,6 +12,7 @@ import Profiles from "./pages/Profiles";
 import Checkout from "./pages/Checkout";
 import OrderTracking from "./pages/OrderTracking";
 import Orders from "./pages/Orders";
+import Measurements from "./pages/Measurements";
 
 const queryClient = new QueryClient();
 
