@@ -10,7 +10,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Heart, User, ShoppingBag, Palette } from "lucide-react";
+import { Menu, Heart, User, ShoppingBag, Palette, Ruler } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Navigation() {
