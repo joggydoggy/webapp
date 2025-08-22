@@ -71,7 +71,11 @@ export default function Measurements() {
   const saveMeasurements = () => {
     // In real app, save to backend/localStorage
     console.log('Saving measurements:', dogData);
-    localStorage.setItem('tempDogData', JSON.stringify(dogData));
+    const dataToSave = {
+      ...dogData,
+      hasPhoto: !!localStorage.getItem('dogPhoto')
+    };
+    localStorage.setItem('tempDogData', JSON.stringify(dataToSave));
     setIsComplete(true);
   };
 
