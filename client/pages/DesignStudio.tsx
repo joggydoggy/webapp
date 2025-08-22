@@ -1,22 +1,34 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import PrototypeManager from "@/components/PrototypeManager";
 import DogPhotoPreview from "@/components/DogPhotoPreview";
-import { 
-  Palette, 
-  Shirt, 
-  Save, 
-  Download, 
-  RotateCcw, 
+import {
+  Palette,
+  Shirt,
+  Save,
+  Download,
+  RotateCcw,
   Heart,
   Sparkles,
   Star,
@@ -24,7 +36,7 @@ import {
   Ruler,
   PaintBucket,
   Users,
-  Plus
+  Plus,
 } from "lucide-react";
 
 interface DogData {
@@ -41,11 +53,11 @@ interface DogData {
 }
 
 interface DesignConfig {
-  style: 'classic' | 'modern' | 'sporty';
+  style: "classic" | "modern" | "sporty";
   fabric: string;
   primaryColor: string;
   secondaryColor: string;
-  size: 'XS' | 'S' | 'M' | 'L' | 'XL';
+  size: "XS" | "S" | "M" | "L" | "XL";
   customFit: {
     collar: number;
     chest: number;
@@ -60,25 +72,47 @@ export default function DesignStudio() {
       id: "1",
       name: "Buddy",
       breed: "Golden Retriever",
-      measurements: { collar: 45, chest: 75, length: 55, weight: 30, height: 60, neckLength: 20 }
+      measurements: {
+        collar: 45,
+        chest: 75,
+        length: 55,
+        weight: 30,
+        height: 60,
+        neckLength: 20,
+      },
     },
     {
-      id: "2", 
+      id: "2",
       name: "Luna",
       breed: "French Bulldog",
-      measurements: { collar: 35, chest: 55, length: 40, weight: 12, height: 35, neckLength: 15 }
+      measurements: {
+        collar: 35,
+        chest: 55,
+        length: 40,
+        weight: 12,
+        height: 35,
+        neckLength: 15,
+      },
     },
     {
       id: "3",
-      name: "Max", 
+      name: "Max",
       breed: "German Shepherd",
-      measurements: { collar: 50, chest: 80, length: 65, weight: 35, height: 65, neckLength: 22 }
-    }
+      measurements: {
+        collar: 50,
+        chest: 80,
+        length: 65,
+        weight: 35,
+        height: 65,
+        neckLength: 22,
+      },
+    },
   ]);
 
   const [selectedPetId, setSelectedPetId] = useState<string>("1");
-  const selectedPet = availablePets.find(p => p.id === selectedPetId) || availablePets[0];
-  
+  const selectedPet =
+    availablePets.find((p) => p.id === selectedPetId) || availablePets[0];
+
   // Load dog data from measurements page or use selected pet
   const [dogData, setDogData] = useState<DogData>({
     name: selectedPet.name,
@@ -101,26 +135,26 @@ export default function DesignStudio() {
 
   // Check for temp dog data from measurements page
   useEffect(() => {
-    const tempData = localStorage.getItem('tempDogData');
+    const tempData = localStorage.getItem("tempDogData");
     if (tempData) {
       const parsedData = JSON.parse(tempData);
       setDogData(parsedData);
-      setDesign(prev => ({
+      setDesign((prev) => ({
         ...prev,
         customFit: {
           collar: parsedData.measurements.collar,
           chest: parsedData.measurements.chest,
           length: parsedData.measurements.length,
-        }
+        },
       }));
       // Clear temp data
-      localStorage.removeItem('tempDogData');
+      localStorage.removeItem("tempDogData");
     }
   }, []);
 
   // Handle pet selection change
   const handlePetSelection = (petId: string) => {
-    const pet = availablePets.find(p => p.id === petId);
+    const pet = availablePets.find((p) => p.id === petId);
     if (pet) {
       setSelectedPetId(petId);
       setDogData({
@@ -128,7 +162,7 @@ export default function DesignStudio() {
         breed: pet.breed,
         measurements: pet.measurements,
       });
-      setDesign(prev => ({
+      setDesign((prev) => ({
         ...prev,
         customFit: {
           collar: pet.measurements.collar,
@@ -142,7 +176,7 @@ export default function DesignStudio() {
   // Handle loading a saved prototype
   const handleLoadPrototype = (prototype: any) => {
     setDesign(prototype.design);
-    const pet = availablePets.find(p => p.id === prototype.petId);
+    const pet = availablePets.find((p) => p.id === prototype.petId);
     if (pet) {
       setDogData({
         name: pet.name,
@@ -159,51 +193,76 @@ export default function DesignStudio() {
 
   const styles = [
     {
-      id: 'classic',
-      name: 'Classic',
-      description: 'Timeless elegance with premium materials',
+      id: "classic",
+      name: "Classic",
+      description: "Timeless elegance with premium materials",
       icon: Star,
-      preview: 'Traditional cut with refined details'
+      preview: "Traditional cut with refined details",
     },
     {
-      id: 'modern', 
-      name: 'Modern',
-      description: 'Contemporary designs with innovative fabrics',
+      id: "modern",
+      name: "Modern",
+      description: "Contemporary designs with innovative fabrics",
       icon: Sparkles,
-      preview: 'Sleek lines with bold accents'
+      preview: "Sleek lines with bold accents",
     },
     {
-      id: 'sporty',
-      name: 'Sporty', 
-      description: 'Active wear for comfort and performance',
+      id: "sporty",
+      name: "Sporty",
+      description: "Active wear for comfort and performance",
       icon: Shirt,
-      preview: 'Athletic fit with breathable materials'
-    }
+      preview: "Athletic fit with breathable materials",
+    },
   ];
 
   const fabrics = [
-    { id: 'cotton-blend', name: 'Cotton Blend', description: 'Soft, breathable, machine washable', price: '+$0' },
-    { id: 'fleece', name: 'Fleece', description: 'Warm, cozy, perfect for winter', price: '+$5' },
-    { id: 'waterproof', name: 'Waterproof', description: 'Weather resistant, easy to clean', price: '+$10' },
-    { id: 'bamboo', name: 'Bamboo', description: 'Eco-friendly, hypoallergenic', price: '+$8' },
-    { id: 'wool', name: 'Merino Wool', description: 'Premium warmth, naturally odor resistant', price: '+$15' }
+    {
+      id: "cotton-blend",
+      name: "Cotton Blend",
+      description: "Soft, breathable, machine washable",
+      price: "+$0",
+    },
+    {
+      id: "fleece",
+      name: "Fleece",
+      description: "Warm, cozy, perfect for winter",
+      price: "+$5",
+    },
+    {
+      id: "waterproof",
+      name: "Waterproof",
+      description: "Weather resistant, easy to clean",
+      price: "+$10",
+    },
+    {
+      id: "bamboo",
+      name: "Bamboo",
+      description: "Eco-friendly, hypoallergenic",
+      price: "+$8",
+    },
+    {
+      id: "wool",
+      name: "Merino Wool",
+      description: "Premium warmth, naturally odor resistant",
+      price: "+$15",
+    },
   ];
 
   const colors = [
-    { name: 'Purple', value: '#8B5CF6' },
-    { name: 'Orange', value: '#F97316' },
-    { name: 'Yellow', value: '#F59E0B' },
-    { name: 'Blue', value: '#3B82F6' },
-    { name: 'Green', value: '#10B981' },
-    { name: 'Pink', value: '#EC4899' },
-    { name: 'Red', value: '#EF4444' },
-    { name: 'Gray', value: '#6B7280' },
-    { name: 'Black', value: '#1F2937' },
-    { name: 'White', value: '#F9FAFB' }
+    { name: "Purple", value: "#8B5CF6" },
+    { name: "Orange", value: "#F97316" },
+    { name: "Yellow", value: "#F59E0B" },
+    { name: "Blue", value: "#3B82F6" },
+    { name: "Green", value: "#10B981" },
+    { name: "Pink", value: "#EC4899" },
+    { name: "Red", value: "#EF4444" },
+    { name: "Gray", value: "#6B7280" },
+    { name: "Black", value: "#1F2937" },
+    { name: "White", value: "#F9FAFB" },
   ];
 
   const updateDesign = (updates: Partial<DesignConfig>) => {
-    setDesign(prev => ({ ...prev, ...updates }));
+    setDesign((prev) => ({ ...prev, ...updates }));
   };
 
   const saveDesign = () => {
@@ -222,8 +281,12 @@ export default function DesignStudio() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">Design Studio</h1>
-            <p className="text-muted-foreground">Create custom clothing for your furry friend</p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">
+              Design Studio
+            </h1>
+            <p className="text-muted-foreground">
+              Create custom clothing for your furry friend
+            </p>
           </div>
 
           <div className="flex gap-3 mt-4 md:mt-0">
@@ -264,7 +327,7 @@ export default function DesignStudio() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {availablePets.map(pet => (
+                  {availablePets.map((pet) => (
                     <SelectItem key={pet.id} value={pet.id}>
                       <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-dogzilla-purple/10 rounded-full flex items-center justify-center">
@@ -272,28 +335,38 @@ export default function DesignStudio() {
                         </div>
                         <div>
                           <div className="font-medium">{pet.name}</div>
-                          <div className="text-sm text-muted-foreground">{pet.breed}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {pet.breed}
+                          </div>
                         </div>
                       </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-              
+
               <div className="mt-4 p-3 bg-muted/50 rounded-lg">
-                <h4 className="font-medium text-sm mb-2">Current Pet: {dogData.name}</h4>
+                <h4 className="font-medium text-sm mb-2">
+                  Current Pet: {dogData.name}
+                </h4>
                 <div className="grid grid-cols-3 gap-2 text-xs">
                   <div>
                     <span className="text-muted-foreground">Collar:</span>
-                    <div className="font-medium">{dogData.measurements.collar}cm</div>
+                    <div className="font-medium">
+                      {dogData.measurements.collar}cm
+                    </div>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Chest:</span>
-                    <div className="font-medium">{dogData.measurements.chest}cm</div>
+                    <div className="font-medium">
+                      {dogData.measurements.chest}cm
+                    </div>
                   </div>
                   <div>
                     <span className="text-muted-foreground">Length:</span>
-                    <div className="font-medium">{dogData.measurements.length}cm</div>
+                    <div className="font-medium">
+                      {dogData.measurements.length}cm
+                    </div>
                   </div>
                 </div>
               </div>
@@ -348,30 +421,51 @@ export default function DesignStudio() {
                   <Sparkles className="w-5 h-5 mr-2 text-dogzilla-orange" />
                   Choose Style
                 </CardTitle>
-                <CardDescription>Select the perfect style for your dog's personality</CardDescription>
+                <CardDescription>
+                  Select the perfect style for your dog's personality
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <RadioGroup value={design.style} onValueChange={(value) => updateDesign({ style: value as any })}>
+                <RadioGroup
+                  value={design.style}
+                  onValueChange={(value) =>
+                    updateDesign({ style: value as any })
+                  }
+                >
                   <div className="grid md:grid-cols-3 gap-4">
-                    {styles.map(style => (
+                    {styles.map((style) => (
                       <div key={style.id} className="relative">
-                        <RadioGroupItem value={style.id} id={style.id} className="sr-only" />
-                        <Label 
+                        <RadioGroupItem
+                          value={style.id}
+                          id={style.id}
+                          className="sr-only"
+                        />
+                        <Label
                           htmlFor={style.id}
                           className={`block p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                            design.style === style.id 
-                              ? 'border-dogzilla-purple bg-dogzilla-purple/5' 
-                              : 'border-border hover:border-dogzilla-purple/50'
+                            design.style === style.id
+                              ? "border-dogzilla-purple bg-dogzilla-purple/5"
+                              : "border-border hover:border-dogzilla-purple/50"
                           }`}
                         >
                           <div className="flex items-center justify-center mb-3">
-                            <style.icon className={`w-8 h-8 ${
-                              design.style === style.id ? 'text-dogzilla-purple' : 'text-muted-foreground'
-                            }`} />
+                            <style.icon
+                              className={`w-8 h-8 ${
+                                design.style === style.id
+                                  ? "text-dogzilla-purple"
+                                  : "text-muted-foreground"
+                              }`}
+                            />
                           </div>
-                          <h3 className="font-medium text-center mb-1">{style.name}</h3>
-                          <p className="text-sm text-muted-foreground text-center mb-2">{style.description}</p>
-                          <p className="text-xs text-center text-muted-foreground">{style.preview}</p>
+                          <h3 className="font-medium text-center mb-1">
+                            {style.name}
+                          </h3>
+                          <p className="text-sm text-muted-foreground text-center mb-2">
+                            {style.description}
+                          </p>
+                          <p className="text-xs text-center text-muted-foreground">
+                            {style.preview}
+                          </p>
                         </Label>
                       </div>
                     ))}
@@ -384,7 +478,9 @@ export default function DesignStudio() {
             <Card>
               <CardHeader>
                 <CardTitle>Customize Your Design</CardTitle>
-                <CardDescription>Fine-tune every detail to perfection</CardDescription>
+                <CardDescription>
+                  Fine-tune every detail to perfection
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <Tabs defaultValue="fabric" className="w-full">
@@ -393,17 +489,28 @@ export default function DesignStudio() {
                     <TabsTrigger value="colors">Colors</TabsTrigger>
                     <TabsTrigger value="fit">Fit</TabsTrigger>
                   </TabsList>
-                  
+
                   <TabsContent value="fabric" className="space-y-4">
-                    <RadioGroup value={design.fabric} onValueChange={(value) => updateDesign({ fabric: value })}>
-                      {fabrics.map(fabric => (
-                        <div key={fabric.id} className="flex items-center space-x-3 p-3 rounded-lg border">
+                    <RadioGroup
+                      value={design.fabric}
+                      onValueChange={(value) => updateDesign({ fabric: value })}
+                    >
+                      {fabrics.map((fabric) => (
+                        <div
+                          key={fabric.id}
+                          className="flex items-center space-x-3 p-3 rounded-lg border"
+                        >
                           <RadioGroupItem value={fabric.id} id={fabric.id} />
-                          <Label htmlFor={fabric.id} className="flex-1 cursor-pointer">
+                          <Label
+                            htmlFor={fabric.id}
+                            className="flex-1 cursor-pointer"
+                          >
                             <div className="flex justify-between items-start">
                               <div>
                                 <div className="font-medium">{fabric.name}</div>
-                                <div className="text-sm text-muted-foreground">{fabric.description}</div>
+                                <div className="text-sm text-muted-foreground">
+                                  {fabric.description}
+                                </div>
                               </div>
                               <Badge variant="secondary">{fabric.price}</Badge>
                             </div>
@@ -412,19 +519,23 @@ export default function DesignStudio() {
                       ))}
                     </RadioGroup>
                   </TabsContent>
-                  
+
                   <TabsContent value="colors" className="space-y-4">
                     <div>
-                      <Label className="text-sm font-medium mb-3 block">Primary Color</Label>
+                      <Label className="text-sm font-medium mb-3 block">
+                        Primary Color
+                      </Label>
                       <div className="grid grid-cols-5 gap-3">
-                        {colors.map(color => (
+                        {colors.map((color) => (
                           <button
                             key={`primary-${color.value}`}
-                            onClick={() => updateDesign({ primaryColor: color.value })}
+                            onClick={() =>
+                              updateDesign({ primaryColor: color.value })
+                            }
                             className={`w-12 h-12 rounded-lg border-2 transition-all ${
-                              design.primaryColor === color.value 
-                                ? 'border-ring scale-110' 
-                                : 'border-border hover:scale-105'
+                              design.primaryColor === color.value
+                                ? "border-ring scale-110"
+                                : "border-border hover:scale-105"
                             }`}
                             style={{ backgroundColor: color.value }}
                             title={color.name}
@@ -432,20 +543,24 @@ export default function DesignStudio() {
                         ))}
                       </div>
                     </div>
-                    
+
                     <Separator />
-                    
+
                     <div>
-                      <Label className="text-sm font-medium mb-3 block">Accent Color</Label>
+                      <Label className="text-sm font-medium mb-3 block">
+                        Accent Color
+                      </Label>
                       <div className="grid grid-cols-5 gap-3">
-                        {colors.map(color => (
+                        {colors.map((color) => (
                           <button
                             key={`secondary-${color.value}`}
-                            onClick={() => updateDesign({ secondaryColor: color.value })}
+                            onClick={() =>
+                              updateDesign({ secondaryColor: color.value })
+                            }
                             className={`w-12 h-12 rounded-lg border-2 transition-all ${
-                              design.secondaryColor === color.value 
-                                ? 'border-ring scale-110' 
-                                : 'border-border hover:scale-105'
+                              design.secondaryColor === color.value
+                                ? "border-ring scale-110"
+                                : "border-border hover:scale-105"
                             }`}
                             style={{ backgroundColor: color.value }}
                             title={color.name}
@@ -454,11 +569,18 @@ export default function DesignStudio() {
                       </div>
                     </div>
                   </TabsContent>
-                  
+
                   <TabsContent value="fit" className="space-y-6">
                     <div>
-                      <Label className="text-sm font-medium mb-3 block">Size</Label>
-                      <Select value={design.size} onValueChange={(value) => updateDesign({ size: value as any })}>
+                      <Label className="text-sm font-medium mb-3 block">
+                        Size
+                      </Label>
+                      <Select
+                        value={design.size}
+                        onValueChange={(value) =>
+                          updateDesign({ size: value as any })
+                        }
+                      >
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -471,49 +593,70 @@ export default function DesignStudio() {
                         </SelectContent>
                       </Select>
                     </div>
-                    
+
                     <div className="space-y-4">
                       <h4 className="font-medium flex items-center">
                         <Ruler className="w-4 h-4 mr-2" />
                         Custom Fit Adjustments
                       </h4>
-                      
+
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm">Collar: {design.customFit.collar}cm</Label>
+                          <Label className="text-sm">
+                            Collar: {design.customFit.collar}cm
+                          </Label>
                           <Slider
                             value={[design.customFit.collar]}
-                            onValueChange={([value]) => updateDesign({
-                              customFit: { ...design.customFit, collar: value }
-                            })}
+                            onValueChange={([value]) =>
+                              updateDesign({
+                                customFit: {
+                                  ...design.customFit,
+                                  collar: value,
+                                },
+                              })
+                            }
                             min={25}
                             max={70}
                             step={1}
                             className="mt-2"
                           />
                         </div>
-                        
+
                         <div>
-                          <Label className="text-sm">Chest: {design.customFit.chest}cm</Label>
+                          <Label className="text-sm">
+                            Chest: {design.customFit.chest}cm
+                          </Label>
                           <Slider
                             value={[design.customFit.chest]}
-                            onValueChange={([value]) => updateDesign({
-                              customFit: { ...design.customFit, chest: value }
-                            })}
+                            onValueChange={([value]) =>
+                              updateDesign({
+                                customFit: {
+                                  ...design.customFit,
+                                  chest: value,
+                                },
+                              })
+                            }
                             min={35}
                             max={100}
                             step={1}
                             className="mt-2"
                           />
                         </div>
-                        
+
                         <div>
-                          <Label className="text-sm">Length: {design.customFit.length}cm</Label>
+                          <Label className="text-sm">
+                            Length: {design.customFit.length}cm
+                          </Label>
                           <Slider
                             value={[design.customFit.length]}
-                            onValueChange={([value]) => updateDesign({
-                              customFit: { ...design.customFit, length: value }
-                            })}
+                            onValueChange={([value]) =>
+                              updateDesign({
+                                customFit: {
+                                  ...design.customFit,
+                                  length: value,
+                                },
+                              })
+                            }
                             min={25}
                             max={80}
                             step={1}
@@ -542,68 +685,90 @@ export default function DesignStudio() {
                 <div className="mb-6">
                   <DogPhotoPreview dog={dogData} design={design} />
                 </div>
-                
+
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Dog:</span>
                     <span className="font-medium">{dogData.name}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Style:</span>
-                    <span className="font-medium capitalize">{design.style}</span>
+                    <span className="text-sm text-muted-foreground">
+                      Style:
+                    </span>
+                    <span className="font-medium capitalize">
+                      {design.style}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Fabric:</span>
-                    <span className="font-medium">{fabrics.find(f => f.id === design.fabric)?.name}</span>
+                    <span className="text-sm text-muted-foreground">
+                      Fabric:
+                    </span>
+                    <span className="font-medium">
+                      {fabrics.find((f) => f.id === design.fabric)?.name}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Size:</span>
                     <span className="font-medium">{design.size}</span>
                   </div>
-                  
+
                   <Separator />
-                  
+
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Colors:</span>
+                    <span className="text-sm text-muted-foreground">
+                      Colors:
+                    </span>
                     <div className="flex space-x-2">
-                      <div 
+                      <div
                         className="w-6 h-6 rounded border-2 border-border"
                         style={{ backgroundColor: design.primaryColor }}
                       />
-                      <div 
+                      <div
                         className="w-6 h-6 rounded border-2 border-border"
                         style={{ backgroundColor: design.secondaryColor }}
                       />
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="space-y-3 mt-6">
                   <div className="text-center">
                     <span className="text-2xl font-bold text-dogzilla-purple">
-                      ${(() => {
+                      $
+                      {(() => {
                         let basePrice = 39.99;
                         const fabricPricing: Record<string, number> = {
-                          'cotton-blend': 0, 'fleece': 5, 'waterproof': 10, 'bamboo': 8, 'wool': 15
+                          "cotton-blend": 0,
+                          fleece: 5,
+                          waterproof: 10,
+                          bamboo: 8,
+                          wool: 15,
                         };
                         const stylePricing: Record<string, number> = {
-                          'classic': 0, 'modern': 5, 'sporty': 8
+                          classic: 0,
+                          modern: 5,
+                          sporty: 8,
                         };
                         basePrice += fabricPricing[design.fabric] || 0;
                         basePrice += stylePricing[design.style] || 0;
                         return Math.round(basePrice * 100) / 100;
                       })()}
                     </span>
-                    <div className="text-xs text-muted-foreground">Estimated price</div>
+                    <div className="text-xs text-muted-foreground">
+                      Estimated price
+                    </div>
                   </div>
-                  
-                  <Button className="w-full bg-dogzilla-orange hover:bg-dogzilla-orange/90" asChild>
+
+                  <Button
+                    className="w-full bg-dogzilla-orange hover:bg-dogzilla-orange/90"
+                    asChild
+                  >
                     <Link to="/checkout">
                       <PaintBucket className="w-4 h-4 mr-2" />
                       Add to Cart
                     </Link>
                   </Button>
-                  
+
                   <Button variant="outline" className="w-full">
                     <Save className="w-4 h-4 mr-2" />
                     Save as Prototype

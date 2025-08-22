@@ -1,20 +1,25 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import DogPhotoMeasurement from "@/components/DogPhotoMeasurement";
-import { 
-  Ruler, 
-  Camera, 
-
+import {
+  Ruler,
+  Camera,
   Heart,
   ArrowRight,
   CheckCircle,
   Info,
   Save,
-  ArrowLeft
+  ArrowLeft,
 } from "lucide-react";
 
 interface DogMeasurements {
@@ -34,7 +39,7 @@ interface DogData {
 
 export default function Measurements() {
   const navigate = useNavigate();
-  
+
   const [dogData, setDogData] = useState<DogData>({
     name: "",
     breed: "",
@@ -44,49 +49,54 @@ export default function Measurements() {
       length: 50,
       weight: 20,
       height: 45,
-      neckLength: 15
-    }
+      neckLength: 15,
+    },
   });
 
   const [isComplete, setIsComplete] = useState(false);
 
-  const updateDogInfo = (field: keyof Omit<DogData, 'measurements'>, value: string) => {
-    setDogData(prev => ({ ...prev, [field]: value }));
+  const updateDogInfo = (
+    field: keyof Omit<DogData, "measurements">,
+    value: string,
+  ) => {
+    setDogData((prev) => ({ ...prev, [field]: value }));
   };
 
   const updateMeasurement = (key: keyof DogMeasurements, value: number) => {
-    setDogData(prev => ({
+    setDogData((prev) => ({
       ...prev,
       measurements: {
         ...prev.measurements,
-        [key]: value
-      }
+        [key]: value,
+      },
     }));
   };
 
   const handlePhotoMeasurementsChange = (measurements: DogMeasurements) => {
-    setDogData(prev => ({ ...prev, measurements }));
+    setDogData((prev) => ({ ...prev, measurements }));
   };
 
   const saveMeasurements = () => {
     // In real app, save to backend/localStorage
-    console.log('Saving measurements:', dogData);
+    console.log("Saving measurements:", dogData);
     const dataToSave = {
       ...dogData,
-      hasPhoto: !!localStorage.getItem('dogPhoto')
+      hasPhoto: !!localStorage.getItem("dogPhoto"),
     };
-    localStorage.setItem('tempDogData', JSON.stringify(dataToSave));
+    localStorage.setItem("tempDogData", JSON.stringify(dataToSave));
     setIsComplete(true);
   };
 
   const continueToDesign = () => {
-    navigate('/customize');
+    navigate("/customize");
   };
 
-  const isFormValid = dogData.name.trim() && dogData.breed.trim() && 
-                    dogData.measurements.collar > 0 && 
-                    dogData.measurements.chest > 0 && 
-                    dogData.measurements.length > 0;
+  const isFormValid =
+    dogData.name.trim() &&
+    dogData.breed.trim() &&
+    dogData.measurements.collar > 0 &&
+    dogData.measurements.chest > 0 &&
+    dogData.measurements.length > 0;
 
   if (isComplete) {
     return (
@@ -98,20 +108,21 @@ export default function Measurements() {
             </div>
             <h2 className="text-2xl font-bold mb-2">Measurements Complete!</h2>
             <p className="text-muted-foreground mb-6">
-              Great! {dogData.name}'s measurements are ready. Now let's design some amazing clothing!
+              Great! {dogData.name}'s measurements are ready. Now let's design
+              some amazing clothing!
             </p>
             <div className="space-y-3">
-              <Button 
+              <Button
                 className="w-full bg-dogzilla-purple hover:bg-dogzilla-purple/90"
                 onClick={continueToDesign}
               >
                 <ArrowRight className="w-4 h-4 mr-2" />
                 Start Designing
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="w-full"
-                onClick={() => navigate('/profiles')}
+                onClick={() => navigate("/profiles")}
               >
                 Save to Profiles
               </Button>
@@ -134,7 +145,9 @@ export default function Measurements() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">Take Measurements</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">
+              Take Measurements
+            </h1>
             <p className="text-muted-foreground">
               Get accurate measurements for your dog to ensure the perfect fit
             </p>
@@ -219,7 +232,8 @@ export default function Measurements() {
                 Photo-Based Measurements
               </CardTitle>
               <CardDescription>
-                Upload a side view photo and place measurement markers for accurate sizing
+                Upload a side view photo and place measurement markers for
+                accurate sizing
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -258,41 +272,57 @@ export default function Measurements() {
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Name:</span>
-                      <span className="font-medium">{dogData.name || "Not provided"}</span>
+                      <span className="font-medium">
+                        {dogData.name || "Not provided"}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Breed:</span>
-                      <span className="font-medium">{dogData.breed || "Not provided"}</span>
+                      <span className="font-medium">
+                        {dogData.breed || "Not provided"}
+                      </span>
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
                   <h4 className="font-medium mb-3">Measurements</h4>
                   <div className="grid grid-cols-2 gap-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Collar:</span>
-                      <span className="font-medium">{dogData.measurements.collar}cm</span>
+                      <span className="font-medium">
+                        {dogData.measurements.collar}cm
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Chest:</span>
-                      <span className="font-medium">{dogData.measurements.chest}cm</span>
+                      <span className="font-medium">
+                        {dogData.measurements.chest}cm
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Length:</span>
-                      <span className="font-medium">{dogData.measurements.length}cm</span>
+                      <span className="font-medium">
+                        {dogData.measurements.length}cm
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Height:</span>
-                      <span className="font-medium">{dogData.measurements.height}cm</span>
+                      <span className="font-medium">
+                        {dogData.measurements.height}cm
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Neck:</span>
-                      <span className="font-medium">{dogData.measurements.neckLength}cm</span>
+                      <span className="font-medium">
+                        {dogData.measurements.neckLength}cm
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Weight:</span>
-                      <span className="font-medium">{dogData.measurements.weight}kg</span>
+                      <span className="font-medium">
+                        {dogData.measurements.weight}kg
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -303,12 +333,10 @@ export default function Measurements() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="outline" asChild>
-              <Link to="/profiles">
-                Cancel
-              </Link>
+              <Link to="/profiles">Cancel</Link>
             </Button>
-            
-            <Button 
+
+            <Button
               onClick={saveMeasurements}
               disabled={!isFormValid}
               className="bg-dogzilla-purple hover:bg-dogzilla-purple/90"
