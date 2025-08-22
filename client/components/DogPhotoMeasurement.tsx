@@ -53,28 +53,24 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
-  // Predefined measurement points for automatic detection
-  const predefinedPoints = [
-    { id: 'nose', label: 'Nose', color: '#EF4444' },
-    { id: 'forehead', label: 'Forehead', color: '#F97316' },
-    { id: 'neck-top', label: 'Neck Top', color: '#F59E0B' },
-    { id: 'neck-bottom', label: 'Neck Bottom', color: '#EAB308' },
-    { id: 'shoulder', label: 'Shoulder', color: '#84CC16' },
-    { id: 'back-start', label: 'Back Start', color: '#22C55E' },
-    { id: 'back-end', label: 'Back End', color: '#10B981' },
-    { id: 'chest-front', label: 'Chest Front', color: '#14B8A6' },
-    { id: 'chest-bottom', label: 'Chest Bottom', color: '#06B6D4' },
-    { id: 'belly', label: 'Belly', color: '#0EA5E9' },
-    { id: 'ground', label: 'Ground', color: '#3B82F6' }
+  // Essential measurement points for dog clothing
+  const essentialPoints = [
+    { id: 'neck-top', label: 'Neck Base', color: '#8B5CF6' },
+    { id: 'neck-collar', label: 'Collar Area', color: '#A855F7' },
+    { id: 'shoulder', label: 'Shoulder', color: '#22C55E' },
+    { id: 'back-start', label: 'Back Start', color: '#10B981' },
+    { id: 'back-end', label: 'Back End', color: '#06B6D4' },
+    { id: 'chest-top', label: 'Chest Top', color: '#F59E0B' },
+    { id: 'chest-bottom', label: 'Chest Bottom', color: '#F97316' },
+    { id: 'ground-ref', label: 'Ground Reference', color: '#6B7280' }
   ];
 
-  // Measurement lines configuration
+  // Measurement lines configuration - only essential measurements
   const measurementConfig = [
-    { id: 'collar', startPoint: 'neck-top', endPoint: 'neck-bottom', label: 'Collar', color: '#8B5CF6' },
+    { id: 'collar', startPoint: 'neck-top', endPoint: 'neck-collar', label: 'Collar', color: '#8B5CF6' },
     { id: 'length', startPoint: 'back-start', endPoint: 'back-end', label: 'Back Length', color: '#A855F7' },
-    { id: 'height', startPoint: 'shoulder', endPoint: 'ground', label: 'Height', color: '#C084FC' },
-    { id: 'neck-length', startPoint: 'forehead', endPoint: 'shoulder', label: 'Neck Length', color: '#D8B4FE' },
-    { id: 'chest', startPoint: 'chest-front', endPoint: 'chest-bottom', label: 'Chest Depth', color: '#E9D5FF' }
+    { id: 'height', startPoint: 'shoulder', endPoint: 'ground-ref', label: 'Height', color: '#22C55E' },
+    { id: 'chest', startPoint: 'chest-top', endPoint: 'chest-bottom', label: 'Chest Depth', color: '#F59E0B' }
   ];
 
   const handleImageUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,41 +91,71 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
     }
   }, []);
 
+  // Utility function to keep points within image bounds
+  const constrainToBounds = (x: number, y: number, imageWidth: number, imageHeight: number) => {
+    return {
+      x: Math.max(10, Math.min(x, imageWidth - 10)),
+      y: Math.max(10, Math.min(y, imageHeight - 10))
+    };
+  };
+
   const autoDetectPoints = () => {
     if (!imageRef.current) return;
-    
+
     const imageRect = imageRef.current.getBoundingClientRect();
     const imageWidth = imageRect.width;
     const imageHeight = imageRect.height;
-    
-    // Auto-place points at estimated locations (basic heuristic positioning)
-    const autoPoints: MeasurementPoint[] = [
-      { id: 'nose', x: imageWidth * 0.1, y: imageHeight * 0.35, label: 'Nose', color: '#EF4444' },
-      { id: 'forehead', x: imageWidth * 0.25, y: imageHeight * 0.25, label: 'Forehead', color: '#F97316' },
-      { id: 'neck-top', x: imageWidth * 0.35, y: imageHeight * 0.3, label: 'Neck Top', color: '#F59E0B' },
-      { id: 'neck-bottom', x: imageWidth * 0.4, y: imageHeight * 0.45, label: 'Neck Bottom', color: '#EAB308' },
-      { id: 'shoulder', x: imageWidth * 0.45, y: imageHeight * 0.4, label: 'Shoulder', color: '#84CC16' },
-      { id: 'back-start', x: imageWidth * 0.45, y: imageHeight * 0.35, label: 'Back Start', color: '#22C55E' },
-      { id: 'back-end', x: imageWidth * 0.85, y: imageHeight * 0.35, label: 'Back End', color: '#10B981' },
-      { id: 'chest-front', x: imageWidth * 0.45, y: imageHeight * 0.5, label: 'Chest Front', color: '#14B8A6' },
-      { id: 'chest-bottom', x: imageWidth * 0.5, y: imageHeight * 0.7, label: 'Chest Bottom', color: '#06B6D4' },
-      { id: 'belly', x: imageWidth * 0.65, y: imageHeight * 0.7, label: 'Belly', color: '#0EA5E9' },
-      { id: 'ground', x: imageWidth * 0.45, y: imageHeight * 0.9, label: 'Ground', color: '#3B82F6' }
+
+    // Improved auto-detection based on typical dog anatomy in side view
+    // Assumes dog is facing left in the photo
+    const basePoints = [
+      // Neck area (front of dog)
+      { id: 'neck-top', rawX: imageWidth * 0.25, rawY: imageHeight * 0.25, label: 'Neck Base', color: '#8B5CF6' },
+      { id: 'neck-collar', rawX: imageWidth * 0.28, rawY: imageHeight * 0.35, label: 'Collar Area', color: '#A855F7' },
+
+      // Body structure
+      { id: 'shoulder', rawX: imageWidth * 0.32, rawY: imageHeight * 0.45, label: 'Shoulder', color: '#22C55E' },
+      { id: 'back-start', rawX: imageWidth * 0.32, rawY: imageHeight * 0.25, label: 'Back Start', color: '#10B981' },
+      { id: 'back-end', rawX: imageWidth * 0.75, rawY: imageHeight * 0.28, label: 'Back End', color: '#06B6D4' },
+
+      // Chest measurements
+      { id: 'chest-top', rawX: imageWidth * 0.35, rawY: imageHeight * 0.45, label: 'Chest Top', color: '#F59E0B' },
+      { id: 'chest-bottom', rawX: imageWidth * 0.42, rawY: imageHeight * 0.65, label: 'Chest Bottom', color: '#F97316' },
+
+      // Ground reference for height
+      { id: 'ground-ref', rawX: imageWidth * 0.35, rawY: imageHeight * 0.85, label: 'Ground Reference', color: '#6B7280' }
     ];
-    
+
+    // Apply bounds checking to all points
+    const autoPoints: MeasurementPoint[] = basePoints.map(point => {
+      const constrained = constrainToBounds(point.rawX, point.rawY, imageWidth, imageHeight);
+      return {
+        id: point.id,
+        x: constrained.x,
+        y: constrained.y,
+        label: point.label,
+        color: point.color
+      };
+    });
+
     setMeasurementPoints(autoPoints);
     calculateMeasurements(autoPoints);
   };
 
   const handlePointDrag = (pointId: string, newX: number, newY: number) => {
-    setMeasurementPoints(prev => 
-      prev.map(point => 
-        point.id === pointId 
-          ? { ...point, x: newX, y: newY }
-          : point
-      )
+    if (!imageRef.current) return;
+
+    const imageRect = imageRef.current.getBoundingClientRect();
+    const constrained = constrainToBounds(newX, newY, imageRect.width, imageRect.height);
+
+    const updatedPoints = measurementPoints.map(point =>
+      point.id === pointId
+        ? { ...point, x: constrained.x, y: constrained.y }
+        : point
     );
-    calculateMeasurements(measurementPoints);
+
+    setMeasurementPoints(updatedPoints);
+    calculateMeasurements(updatedPoints);
   };
 
   const calculateMeasurements = (points: MeasurementPoint[]) => {
@@ -165,11 +191,9 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
           case 'height':
             measurements.height = Math.round(cmDistance);
             break;
-          case 'neck-length':
-            measurements.neckLength = Math.round(cmDistance);
-            break;
           case 'chest':
-            measurements.chest = Math.round(cmDistance * 3.14); // Approximate circumference
+            measurements.chest = Math.round(cmDistance * 3.5); // Approximate chest circumference
+            measurements.neckLength = Math.round(cmDistance * 0.6); // Estimate neck length from chest depth
             break;
         }
       }
@@ -354,17 +378,31 @@ export default function DogPhotoMeasurement({ onMeasurementsChange }: DogPhotoMe
               </svg>
             </div>
 
-            {/* Point Legend */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {predefinedPoints.map(point => (
+            {/* Essential Points Legend */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              {essentialPoints.map(point => (
                 <div key={point.id} className="flex items-center space-x-2 text-sm">
-                  <div 
+                  <div
                     className="w-3 h-3 rounded-full border border-white"
                     style={{ backgroundColor: point.color }}
                   />
-                  <span>{point.label}</span>
+                  <span className="text-xs">{point.label}</span>
                 </div>
               ))}
+            </div>
+
+            {/* Measurement Instructions */}
+            <div className="p-3 bg-dogzilla-purple/10 rounded-lg">
+              <h4 className="font-medium text-sm mb-2 flex items-center">
+                <Target className="w-4 h-4 mr-2" />
+                Adjustment Tips
+              </h4>
+              <ul className="text-xs text-muted-foreground space-y-1">
+                <li>• Drag points to fine-tune positioning</li>
+                <li>• Ensure collar points capture the neck circumference</li>
+                <li>• Back length should span from shoulders to tail base</li>
+                <li>• Chest depth helps calculate full chest circumference</li>
+              </ul>
             </div>
 
             <input
